@@ -1,3 +1,5 @@
+# 数据查询工具：angular12使用antv/x6实现画布配置模型设计功能。
+
 # Ng-Web端平台
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
