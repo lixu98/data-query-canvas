@@ -1,0 +1,25 @@
+  <ag-grid-angular
+  #agGrid
+  class="ag-theme-balham"
+  style="height: 100%;"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [frameworkComponents]="frameworkComponents"
+  (sortChanged)="onSortChanged($event)"
+  [rowSelection]="rowSelection"
+  [rowMultiSelectWithClick]="true"
+  (selectionChanged)="onSelectionChanged()"
+  [floatingFilter]="true"
+  (filterChanged)="onFilterChanged($event)"
+  (gridReady)="onGridReady($event)"
+></ag-grid-angular>
+
+<div nz-row nzJustify="center" style="margin: 10px 0;">
+  <dw-pagination-server-side-wrap [dataSource]="dataService" #pagination
+                                  [dwPageIndex]="pageNumber"
+                                  [dwPageSize]="pageSize"
+                                  [queryInfo]="queryInfo"
+                                  [dwShowSizeChanger]="true"
+                                  (dataSourceChange)="onDataSourceChange($event)">
+  </dw-pagination-server-side-wrap>
+</div>

@@ -1,0 +1,42 @@
+<nz-content class="dw-f-dynamic">
+  <form nz-form [formGroup]="validateForm" >
+    <div nz-row [nzGutter]="24" class="dw-f-form-head">
+
+      <div nz-col [nzMd]="24" [nzLg]="12" class="dw-f-dynamic-block" *ngFor="let rows of datasFormGroup">
+        <nz-form-item nz-row>
+          <nz-form-label nz-col [nzSpan]="24" class="title">
+            {{rows.title}}
+          </nz-form-label>
+        </nz-form-item>
+        <nz-form-item nz-row>
+          <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+            {{'dw-dynamic-listwin-輸入欄位' | translate}}
+          </nz-form-label>
+          <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+            <app-sbep-query-input
+              formControlName="{{rows.controlName}}"
+              selectWindowId="{{rows.selectWindowId}}"
+              resourceUrl="{{rows.resourceUrl}}"
+              title="{{rows.title}}"
+              multiSelect="{{rows.multiSelect}}"
+              (selectedValue)="onselectedValue($event)"
+            ></app-sbep-query-input>
+            <button nz-button type="button" nzType="primary" (click)="clearValue(rows.controlName)">{{'clear' | translate}}</button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="24" class="dw-f-form-head dw-f-dynamic-val">
+      <div nz-col [nzSpan]="24">
+        <button nz-button type="button" nzType="primary" (click)="getFormGroupValue()">{{'dw-dynamic-listwin-取值' | translate}}</button>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="24" class="dw-f-dynamic-val-info">
+      <div nz-col [nzSpan]="24">
+        {{ formGroupValue | json }}
+      </div>
+    </div>
+  </form>
+
+</nz-content>

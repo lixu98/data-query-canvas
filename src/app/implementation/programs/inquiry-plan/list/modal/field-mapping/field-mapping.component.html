@@ -1,0 +1,59 @@
+<nz-modal nzClassName="field-mapping-modal" [nzVisible]="visible" nzTitle="字段映射" nzWidth="960px" (nzOnCancel)="close()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+<!--        <div class="table-search">-->
+<!--            <nz-input-group class="search-filter" [nzPrefix]="searchIcon">-->
+<!--                <input nz-input placeholder="搜索名称/字段" [(ngModel)]="keyword" />-->
+<!--            </nz-input-group>-->
+<!--            <ng-template #searchIcon>-->
+<!--                <svg width="16" height="16" viewBox="0 0 16 16"><g><g><path d="M11.019522833862304,11.726548092651367C10.065772833862304,12.521598092651367,8.838742833862305,12.999898092651367,7.499982833862305,12.999898092651367C4.462412833862304,12.999898092651367,1.9999828338623047,10.537498092651367,1.9999828338623047,7.499958092651367C1.9999828338623047,4.462408092651367,4.462412833862304,1.9999980926513672,7.499982833862305,1.9999980926513672C10.537552833862305,1.9999980926513672,12.999982833862305,4.462408092651367,12.999982833862305,7.499958092651367C12.999982833862305,8.838688092651367,12.521682833862304,10.065698092651367,11.726632833862304,11.019438092651367L11.853552833862304,11.146358092651367L13.853582833862305,13.146298092651367C13.947282833862305,13.240098092651367,13.999982833862305,13.367298092651367,13.999982833862305,13.499898092651367C13.999982833862305,13.775998092651367,13.776182833862304,13.999898092651367,13.499982833862305,13.999898092651367C13.367382833862305,13.999898092651367,13.240182833862304,13.947198092651368,13.146482833862304,13.853398092651368L11.146442833862304,11.853468092651367L11.019522833862304,11.726548092651367ZM11.999982833862305,7.499958092651367C11.999982833862305,5.014698092651367,9.985262833862304,2.999990092651367,7.499982833862305,2.999990092651367C5.014702833862305,2.999990092651367,2.9999828338623047,5.014698092651367,2.9999828338623047,7.499958092651367C2.9999828338623047,9.985218092651367,5.014702833862305,11.999918092651367,7.499982833862305,11.999918092651367C9.985262833862304,11.999918092651367,11.999982833862305,9.985218092651367,11.999982833862305,7.499958092651367Z" fill-rule="evenodd" fill="#A6A6B2" fill-opacity="1"/></g></g></svg>-->
+<!--            </ng-template>-->
+<!--        </div>-->
+        <nz-tabset [(nzSelectedIndex)]="tabIndex">
+            <nz-tab *ngFor="let tab of tabList" [nzTitle]="tab.title" nzForceRender>
+                <ng-container [ngTemplateOutlet]="contentTpl" [ngTemplateOutletContext]="{ $implicit: tab.data }"></ng-container>
+            </nz-tab>
+            <ng-template #nzNoResult>
+                <app-empty-data text="暂无数据"></app-empty-data>
+            </ng-template>
+            <ng-template #contentTpl let-data>
+                <form nz-form [formGroup]="form">
+                    <nz-table
+                        nzSize="small"
+                        nzBordered
+                        [nzNoResult]="nzNoResult"
+                        [nzScroll]="{ y: '374px' }"
+                        [nzShowPagination]="false"
+                        [nzData]="this[data].controls"
+                        [nzWidthConfig]="['52px', '20%', '24%', '20%']"
+                    >
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>路径</th>
+                                <th>字段</th>
+                                <th>别名</th>
+                            </tr>
+                        </thead>
+                        <tbody [formArrayName]="data">
+                            <tr *ngFor="let item of this[data].controls; let i = index" [formGroupName]="i">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ item.value.title }}</td>
+                                <td>{{ item.value.path }}</td>
+                                <td>{{ item.value.column }}</td>
+                                <td>
+                                    <nz-form-item class="mb0">
+                                        <nz-form-control [nzErrorTip]="errorTips.globalErrorTip">
+                                            <input nz-input formControlName="alias" placeholder="请输入别名">
+                                        </nz-form-control>
+                                        <app-form-error-tip #errorTips name="别名"></app-form-error-tip>
+                                    </nz-form-item>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </form>
+            </ng-template>
+        </nz-tabset>
+    </ng-container>
+</nz-modal>

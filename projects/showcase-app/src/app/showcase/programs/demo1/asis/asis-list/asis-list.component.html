@@ -1,0 +1,131 @@
+<nz-content class="dw-f-content-list">
+
+  <!-- 查詢條件 -->
+  <form nz-form [formGroup]="searchForm">
+    <div nz-row class="ant-advanced-search-form dw-f-search-form-block">
+      <div nz-col [nzSpan]="24" [nzLg]="{span: 23}">
+        <div nz-row [nzGutter]="5">
+          <div nz-col  [nzSpan]="8">
+            <dw-form-input
+              formControlName="asisId"
+              dwLabel="{{'dw-asis-分析編號' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col  [nzSpan]="8">
+            <dw-form-input
+              formControlName="asisName"
+              dwLabel="{{'dw-asis-分析名稱' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="5"   [style.display]="!isCollapse?'block':'none'">
+          <div nz-col  [nzSpan]="8">
+              <dw-form-select
+                [dwOptionList]="searchStatusOptions | async"
+                formControlName="status"
+                dwLabel="{{'dw-asis-系統值' | translate}}"
+                [dwPlaceHolder]="'dw-asis-請選擇' | translate"
+                [dwNotFoundContent]="'dw-asis-無選項' | translate"
+                dwLabelSpan="8"
+                dwInputSpan="16"
+                [dwRequired]="false">
+              </dw-form-select>
+            </div>
+        </div>
+
+        <div nz-row class="search-form-row">
+          <div nz-col [nzSpan]="24" class="dw-f-txt-right">
+            <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'query'"
+                    [dwDefaultAuthorized]="'hidden'" (dwClick)="searchData(true)">{{ 'dw-asis-查詢' | translate }}
+            </button>
+            <button nz-button type="button" (click)="resetForm()">{{ 'dw-asis-清除' | translate }}</button>
+            <a class="dw-f-link-more" (click)="isCollapse = !isCollapse">
+              {{ 'dw-asis-進階查詢' | translate }}
+              <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+  <div nz-row class="dw-f-btn-bar-action">
+    <div nz-col [nzSpan]="24">
+      <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'add'" [dwDefaultAuthorized]="'disabled'" (dwClick)="addDataModal()">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+        <span translate>dw-asis-新增</span>
+      </button>
+      <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'" (dwClick)="operateData('delete')" [disabled]="disabledButton" [nzLoading]="operating">
+        <i nz-icon nzType="delete" nzTheme="outline"></i>
+        <span translate>dw-asis-刪除</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="dw-f-table">
+    <div *ngIf="checkedNumber">
+        <nz-alert [nzType]="'info'" [nzMessage]="checkedDescription" nzShowIcon class="dw-f-row-bottom"></nz-alert>
+    </div>
+    <nz-table #dwTable [nzData]="dataSet"   [nzLoading]="searchLoading" [nzTotal]="rowCount"
+              [nzPageSizeOptions]="['1','2','3','4','5']"
+              [nzFrontPagination]="false"
+              [nzShowSizeChanger]="true"
+              [nzShowPagination]="true"
+              [nzShowQuickJumper]="true"
+              [(nzPageIndex)]="search.pageIndex"
+              (nzPageIndexChange)="onPageIndexChange()"
+              [(nzPageSize)]="search.pageSize"
+              (nzPageSizeChange)="onPageSizeChange()">
+      <thead>
+      <tr>
+        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)">
+        </th>
+        <th nzShowSort [(nzSortOrder)]="sortMap.asisId" (nzSortOrderChange)="sortBy('asisId',$event)">
+          <span translate>dw-asis-分析編號</span>
+        </th>
+        <th>
+          <span translate>dw-asis-分析名稱</span>
+        </th>
+        <th>
+          <span translate>dw-asis-系統值</span>
+        </th>
+        <th>
+          <span translate>dw-asis-操作</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of dwTable.data">
+        <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus($event)">
+        </td>
+        <td>
+          <a dwActionAuthorized [dwActionId]="'view'" [dwDefaultAuthorized]="'disabled'"
+             (dwClick)="view(data.asisId)">{{data.asisId}}</a>
+        </td>
+        <td>
+          {{data.asisName}}
+        </td>
+        <td>
+          {{data.statusDesc}}
+        </td>
+        <td>
+            <span>
+                <a dwActionAuthorized [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'" (dwClick)="showConfirm(data)">
+                  <i nz-icon nzType="delete" nzTheme="outline"></i>
+                  <span translate>dw-asis-刪除</span>
+                </a>
+            </span>
+          </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-content>

@@ -1,0 +1,298 @@
+<nz-content class="dw-f-input-listwin">
+<form nz-form>
+  <div nz-row [nzGutter]="24">
+    <!-- 多選 - 用戶ID與租戶ID -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-organize-tree-multiple</span> - <span translate>dw-organize-tree</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixMultiple">
+            <nz-select style="width: 100%" [(ngModel)]="multiple" nzMode="multiple" [compareWith]="compareWith" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of multiple" [nzLabel]="option.title" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixMultiple>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openMultiple($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- 單選 - 租戶ID -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-organize-tree-single</span> - <span translate>dw-organize-tree-org</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSingle">
+            <nz-select style="width: 100%" [(ngModel)]="single" nzMode="multiple" [compareWith]="compareWith" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of single" [nzLabel]="option.title" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSingle>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSingle($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+
+  <div nz-row [nzGutter]="24">
+    <!-- 取得組織結構清單 - 用戶ID與租戶ID -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <button nz-button type="button" nzType="primary" (click)="getMultipleNodeLists()"><span translate>dw-organize-tree-data</span> - <span translate>dw-organize-tree</span></button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <div nz-row [nzGutter]="24" class="dw-f-dynamic-val-info" *ngIf="multipleLists.length">
+            <div nz-col [nzSpan]="24">
+              <nz-list [nzDataSource]="multipleLists" nzBordered [nzRenderItem]="multipleItem">
+                <ng-template #multipleItem let-multipleItem>
+                  <nz-list-item>{{ multipleItem | json }}</nz-list-item>
+                </ng-template>
+              </nz-list>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- 取得組織結構清單 - 租戶ID -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <button nz-button type="button" nzType="primary" (click)="getSingleNodeLists()"><span translate>dw-organize-tree-data</span> - <span translate>dw-organize-tree-org</span></button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <div nz-row [nzGutter]="24" class="dw-f-dynamic-val-info" *ngIf="singleLists.length">
+            <div nz-col [nzSpan]="24">
+              <nz-list [nzDataSource]="singleLists" nzBordered [nzRenderItem]="singleItem">
+                <ng-template #singleItem let-singleItem>
+                  <nz-list-item>{{ singleItem | json }}</nz-list-item>
+                </ng-template>
+              </nz-list>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+
+  <div nz-row [nzGutter]="24">
+    <!-- 多選 - 用戶Sid與租戶Sid -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-organize-tree-multiple</span> - <span translate>dw-organize-tree-sid</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSidMultiple">
+            <nz-select style="width: 100%" [(ngModel)]="sidMultiple" nzMode="multiple" [compareWith]="compareWith" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of sidMultiple" [nzLabel]="option.title" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSidMultiple>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSidMultiple($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- 單選 - 租戶Sid -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-organize-tree-single</span> - <span translate>dw-organize-tree-org-sid</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSidSingle">
+            <nz-select style="width: 100%" [(ngModel)]="sidSingle" nzMode="multiple" [compareWith]="compareWith" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of sidSingle" [nzLabel]="option.title" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSidSingle>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSidSingle($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+
+  <div nz-row [nzGutter]="24">
+    <!-- 取得組織結構清單 - 用戶Sid與租戶Sid -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <button nz-button type="button" nzType="primary" (click)="getSidMultipleNodeLists()"><span translate>dw-organize-tree-data</span> - <span translate>dw-organize-tree-sid</span></button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <div nz-row [nzGutter]="24" class="dw-f-dynamic-val-info" *ngIf="sidMultipleLists.length">
+            <div nz-col [nzSpan]="24">
+              <nz-list [nzDataSource]="sidMultipleLists" nzBordered [nzRenderItem]="sidMultipleItem">
+                <ng-template #sidMultipleItem let-sidMultipleItem>
+                  <nz-list-item>{{ sidMultipleItem | json }}</nz-list-item>
+                </ng-template>
+              </nz-list>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+
+    <!-- 取得組織結構清單 - 租戶Sid -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <button nz-button type="button" nzType="primary" (click)="getSidSingleNodeLists()"><span translate>dw-organize-tree-data</span> - <span translate>dw-organize-tree-org-sid</span></button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <div nz-row [nzGutter]="24" class="dw-f-dynamic-val-info" *ngIf="sidSingleLists.length">
+            <div nz-col [nzSpan]="24">
+              <nz-list [nzDataSource]="sidSingleLists" nzBordered [nzRenderItem]="sidSingleItem">
+                <ng-template #sidSingleItem let-sidSingleItem>
+                  <nz-list-item>{{ sidSingleItem | json }}</nz-list-item>
+                </ng-template>
+              </nz-list>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+
+  <div nz-row [nzGutter]="24">
+    <!-- 多選 - 用戶Sid與租戶Sid - 只選人員 - 與UX操作情境不符合, 不建議使用此設定展開組織樹 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block" style="min-height: 122px">
+      <!-- <nz-form-item nz-row>
+        <nz-form-label nz-col [dwSpan]="24" class="title">
+          <span translate>dw-organize-tree-multiple</span> - <span translate>dw-organize-tree-sid</span> - <span translate>dw-organize-tree-onlyuser</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nz-col [dwSm]="24" [dwXs]="24">
+          <nz-input-group dwSearch [dwAddOnAfter]="suffixSidMultipleOnlyuser">
+            <nz-select style="width: 100%" [(ngModel)]="sidMultipleOnlyuser" dwMode="multiple" [compareWith]="compareWith" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of sidMultipleOnlyuser" [dwLabel]="option.title" [dwValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSidMultipleOnlyuser>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSidMultipleOnlyuser($event)">
+              <i nz-icon dwType="search" dwTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item> -->
+    </div>
+
+    <!-- 單選 - 用戶Sid與租戶Sid - 只選人員 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-organize-tree-single</span> - <span translate>dw-organize-tree-org-sid</span> - <span translate>dw-organize-tree-onlyuser</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSidSingleOnlyuser">
+            <nz-select style="width: 100%" [(ngModel)]="sidSingleOnlyuser" nzMode="multiple" [compareWith]="compareWith" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of sidSingleOnlyuser" [nzLabel]="option.title" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSidSingleOnlyuser>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSidSingleOnlyuser($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+
+  <div nz-row [nzGutter]="24">
+    <!-- 取得組織結構清單 - 用戶Sid與租戶Sid - 只選人員 - 與UX操作情境不符合, 不建議使用此設定展開組織樹 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block" style="min-height: 88px">
+      <!-- <nz-form-item nz-row>
+        <nz-form-control nz-col [dwSm]="24" [dwXs]="24">
+          <button nz-button type="button" nzType="primary" (click)="getSidMultipleNodeListsOnlyuser()"><span translate>dw-organize-tree-data</span> - <span translate>dw-organize-tree-sid</span> - <span translate>dw-organize-tree-onlyuser</span></button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nz-col [dwSm]="24" [dwXs]="24">
+          <div nz-row [dwGutter]="24" class="dw-f-dynamic-val-info" *ngIf="sidMultipleListsOnlyuser.length">
+            <div nz-col [dwSpan]="24">
+              <nz-list [dwDataSource]="sidMultipleListsOnlyuser" dwBordered [dwRenderItem]="sidMultipleOnlyuserItem">
+                <ng-template #sidMultipleOnlyuserItem let-sidMultipleOnlyuserItem>
+                  <nz-list-item>{{ sidMultipleOnlyuserItem | json }}</nz-list-item>
+                </ng-template>
+              </nz-list>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item> -->
+    </div>
+
+    <!-- 取得組織結構清單 - 用戶Sid與租戶Sid - 只選人員 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <button nz-button type="button" nzType="primary" (click)="getSidSingleNodeListsOnlyuser()"><span translate>dw-organize-tree-data</span> - <span translate>dw-organize-tree-org-sid</span> - <span translate>dw-organize-tree-onlyuser</span></button>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="24" [nzXs]="24">
+          <div nz-row [nzGutter]="24" class="dw-f-dynamic-val-info" *ngIf="sidSingleListsOnlyuser.length">
+            <div nz-col [nzSpan]="24">
+              <nz-list [nzDataSource]="sidSingleListsOnlyuser" nzBordered [nzRenderItem]="sidSingleItemOnlyuser">
+                <ng-template #sidSingleItemOnlyuser let-sidSingleItemOnlyuser>
+                  <nz-list-item>{{ sidSingleItemOnlyuser | json }}</nz-list-item>
+                </ng-template>
+              </nz-list>
+            </div>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+</form>
+</nz-content>

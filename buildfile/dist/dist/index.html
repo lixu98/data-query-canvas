@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#1976d2">
+  <script>
+    // TODO：Chrome 80 Bug造成不定時出現form的error
+    // 暫解：覆寫reduce，https://github.com/angular/angular/issues/35219
+    (function () {
+      const arrayReduce = Array.prototype.reduce;
+      let callback;
+      Object.defineProperty(Array.prototype, 'reduce', {
+        value: function (cb, ...args) {
+          callback = cb;
+          return arrayReduce.call(this, callback, ...args);
+        }
+      });
+    })();
+  </script>
+<style>body,html{width:100%;height:100%}*,:after,:before{box-sizing:border-box}html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{margin:0;color:rgba(0,0,0,.85);font-size:14px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica;font-variant:tabular-nums;line-height:1.5715;background-color:#fff;font-feature-settings:"tnum","tnum"}html{--antd-wave-shadow-color:#1890ff;--scroll-bar:0}body{font-family:Microsoft YaHei,sans-serif}</style><link rel="stylesheet" href="styles.5d2541118e6b203ab8ab.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles.5d2541118e6b203ab8ab.css"></noscript></head>
+
+<body>
+  <app-root></app-root>
+
+  <script>
+    // 載入平台JavaScript
+    var dwScript = document.createElement('script');
+    dwScript.src = './assets/dw-framework/dw-index.js?dwTime=' + new Date().getTime();
+
+    if (document.head) {
+      document.head.appendChild(dwScript);
+    } else { // IE8
+      document.getElementsByTagName('head')[0].appendChild(dwScript);
+    }
+  </script>
+<script src="polyfills-es5.84fcf9180a9fd2a4ddb9.js" nomodule defer></script><script src="polyfills-es2015.19bb7f8cdd040426b935.js" type="module"></script><script src="scripts.3fae0ae7533d6f50e849.js" defer></script><script src="main-es2015.9294ebb853e203bba17e.js" type="module"></script><script src="main-es5.9294ebb853e203bba17e.js" nomodule defer></script>
+
+
+</body></html>

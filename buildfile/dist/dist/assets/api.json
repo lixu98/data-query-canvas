@@ -1,0 +1,27 @@
+{
+  "apiUrl": "@WEB_SERVICE_URL@",
+  "pctApiUrl": "@PCT_WEB_SERVICE_URL@",
+  "kbsWebUrl": "@KBS_WEB_SERVICE_URL@",
+  "ppuApiUrl": "@PPU_WEB_SERVICE_URL@",
+  "cssApiUrl": "@CSS_WEB_SERVICE_URL@",
+  "ssmApiUrl": "@SSM_WEB_SERVICE_URL@",
+  "dsaApiUrl": "@DSA_WEB_SERVICE_URL@",
+  "importTemplateID": "@IMPORT_TEMPLATE_ID@",
+  "importQuickwearTemplateID": "@IMPORT_QUICKWEAR_TEMPLATE_ID@",
+  "iamUrl": "@IAM_SERVICE_URL@",
+  "emcUrl": "@EMC_SERVICE_URL@",
+  "omUrl": "@OM_URL@",
+  "consoleUrl": "@CONSOLE_URL@",
+  "marketUrl": "@MARKET_URL@",
+  "cmcUrl": "@CMC_SERVICE_URL@",
+  "omcUrl": "@OMC_SERVICE_URL@",
+  "gmcUrl": "@GMC_SERVICE_URL@",
+  "cacUrl": "@CAC_SERVICE_URL@",
+  "frUrl": "@FINEREPORT_URL@",
+  "dmcUrl": "@DMC_SERVICE_URL@",
+  "analytics": {
+    "gtm": "@ANALYTICS_GTM@",
+    "baidu": "@ANALYTICS_BAIDU@"
+  },
+  "multiTenant": "@MULTI_TENANT@"
+}

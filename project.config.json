@@ -1,0 +1,9 @@
+{
+  "envType": "angular",
+  "dap": {
+    "enabled": true
+  },
+  "athena": {
+    "enabled": false
+  }
+}

@@ -1,0 +1,178 @@
+<nz-content class="dw-f-content-list">
+
+  <!-- 查詢條件 -->
+  <form nz-form [formGroup]="searchForm">
+    <div nz-row class="ant-advanced-search-form dw-f-search-form-block">
+
+      <div nz-col [nzSpan]="24" [nzLg]="{span: 23}">
+        <div nz-row [nzGutter]="5">
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="orderId"
+              dwLabel="{{'dw-order-訂單編號' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-select
+              [dwOptionList]="searchStatusOptions"
+              dwMode="tags"
+              formControlName="status"
+              dwLabel="{{'dw-order-狀態碼' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16">
+            </dw-form-select>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="total"
+              dwLabel="{{'dw-order-訂單總額' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+        </div>
+
+        <div nz-row  [nzGutter]="5" [style.display]="!isCollapse?'block':'none'">
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="customerName"
+              dwLabel="{{'dw-order-客戶名稱' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="salesmanName"
+              dwLabel="{{'dw-order-業務員姓名' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-select
+              [dwOptionList]="genders"
+              dwMode="tags"
+              formControlName="gender"
+              dwLabel="{{'dw-order-業務員性別' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16">
+            </dw-form-select>
+          </div>
+          <!-- <dw-form-field [dwSpan]="8"
+                         [formGroup]="searchForm"
+                         dwName="customerName"
+                         [dwLabel]="'dw-order-客戶名稱' | translate"
+                         dwType="search"
+                         [modalOptions]="customerModalOptions"
+                         [dwValue]="search.fields.customerName"
+                         nz-col></dw-form-field>
+
+          <dw-form-field [dwSpan]="8"
+                         [formGroup]="searchForm"
+                         dwName="salesmanName"
+                         [dwLabel]="'dw-order-業務員姓名' | translate"
+                         dwType="search"
+                         [modalOptions]="salesModalOptions"
+                         [dwValue]="search.fields.salesmanName"
+                         nz-col></dw-form-field>
+          -->
+        </div>
+
+        <div nz-row class="search-form-row">
+          <div nz-col [nzSpan]="24">
+            <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'query'"
+                    [dwDefaultAuthorized]="'hidden'" (dwClick)="searchData(true)"
+                    [dwActionAuthorizedCallback]="actionAuthorizedCallback">
+                    {{ 'dw-order-查詢' | translate }}
+            </button>
+            <button nz-button type="button" (click)="resetForm()">{{ 'dw-order-清除' | translate }}</button>
+            <a class="dw-f-link-more" (click)="isCollapse = !isCollapse">
+              {{ 'dw-order-進階查詢' | translate }}
+              <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+  <div class="dw-f-table">
+    <nz-table #dwTable [nzData]="dataSet" nzShowSizeChanger [nzLoading]="searchLoading" [nzTotal]="rowCount" [nzFrontPagination]="false"
+              [(nzPageIndex)]="search.pageIndex"
+              (nzPageIndexChange)="onPageIndexChange()" [(nzPageSize)]="search.pageSize"
+              (nzPageSizeChange)="onPageSizeChange()">
+      <thead>
+      <tr>
+        <th>
+          <span translate>dw-order-狀態碼</span>
+        </th>
+        <th>
+          <span translate>dw-order-訂單編號</span>
+        </th>
+        <th>
+          <span translate>dw-order-訂單日期</span>
+        </th>
+        <th>
+          <span translate>dw-order-訂單總額</span>
+          <!-- <dw-table-sort [(dwValue)]="sortMap.total" (dwValueChange)="sortBy('total',$event)"></dw-table-sort> -->
+        </th>
+        <th>
+          <span translate>dw-order-客戶編號</span>
+        </th>
+        <th>
+          <span translate>dw-order-客戶名稱</span>
+        </th>
+        <th *dwId="'orderAddr'">
+          <span translate>dw-order-送貨地址</span>
+        </th>
+        <th>
+          <span translate>dw-order-業務員姓名</span>
+          <!-- <dw-table-sort [(dwValue)]="sortMap.salesmanName"
+                                 (dwValueChange)="sortBy('salesmanName',$event)"></dw-table-sort> -->
+        </th>
+        <th nzShowFilter [nzFilters]="genderList" (nzFilterChange)="ExFilter($event)">
+          <span translate>dw-order-業務員性別</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of dwTable.data">
+        <td>
+          {{data.statusDesc}}
+        </td>
+        <td>
+          <a dwActionAuthorized [dwActionId]="'modify'" [dwDefaultAuthorized]="'disabled'"
+             (dwClick)="modify(data.orderId)">{{data.orderId}}</a>
+        </td>
+        <td>
+          {{data.orderDate | date:'yyyy/MM/dd HH:mm:ss a'}}
+        </td>
+        <td class="number-align">
+          {{data.total | currency: 'TWD': '$': '1.0-0'}}
+        </td>
+        <td *dwId="'customerId'">
+          {{data.customerId}}
+        </td>
+        <td>
+          {{data.customerName}}
+        </td>
+        <td>
+          {{data.orderAddr}}
+        </td>
+        <td>
+          {{data.salesmanName}} ({{data.salesmanId}})
+        </td>
+        <td>{{data.genderDesc}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-content>

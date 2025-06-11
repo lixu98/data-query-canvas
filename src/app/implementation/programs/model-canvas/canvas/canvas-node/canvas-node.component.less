@@ -1,0 +1,130 @@
+@node_width: 240px;
+@node_height: 56px;
+.canvas-node {
+    width: @node_width;
+    height: @node_height;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    position: relative;
+    background: #DEE6FF;
+    box-shadow: 0px 16px 25px 0px rgba(161, 174, 255, 0.12);
+    border: 0 solid rgba(20, 46, 221, .8);
+    border-radius: 8px;
+    //transition: all 0.6s;
+
+    .node-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        background: #142EDD;
+    }
+
+    .node-content {
+        max-width: 164px;
+        div:first-child {
+            font-weight: 500;
+        }
+        div:last-child {
+            font-size: 12px;
+            color: #8C8B99;
+        }
+    }
+
+    .circle {
+        &-top, &-right, &-bottom, &-left {
+            display: none;
+            width: 8px;
+            height: 8px;
+            background: #FFFFFF;
+            border: 1px solid #605CE5;
+            border-radius: 50%;
+            position: absolute;
+        }
+        &-top {
+            top: -4px;
+            left: calc(50% - 4px);
+        }
+        &-right {
+            top: calc(50% - 4px);
+            right: -4px;
+        }
+        &-bottom {
+            bottom: -4px;
+            left: calc(50% - 4px);
+        }
+        &-left {
+            bottom: calc(50% - 4px);
+            left: -4px;
+        }
+    }
+
+    .btn-add {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        transform: translate(50%, 50%);
+        font-size: 20px;
+    }
+
+    .btn-delete {
+        position: absolute;
+        right: 8px;
+        top: -21px;
+        height: 20px;
+        border-radius: 4px 4px 0px 0px;
+        background: rgba(0, 0, 0, 0.6);
+        font-size: 12px;
+        padding: 0 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-add, .btn-delete {
+        cursor: pointer;
+        display: none;
+    }
+
+    &:hover {
+        border-width: 1px;
+        .circle-top, .circle-right, .circle-bottom, .circle-left, .btn-add, .btn-delete {
+            display: flex;
+        }
+    }
+
+    &.node1 {
+        background: #ffffff;
+        box-shadow: 0px 8px 16px 0px rgba(96, 92, 229, 0.1);
+        border-color: rgba(96, 92, 229, 0.8);
+        border-radius: 100px;
+        .node-icon {
+            background: linear-gradient(134deg, #A0A0FF 3%, #5D78FF 93%);
+        }
+        .btn-add {
+            bottom: 50%;
+        }
+    }
+
+    &.node2 {
+        background: #ffffff;
+        box-shadow: 0px 8px 16px 0px rgba(96, 92, 229, 0.1);
+        border-color: rgba(255, 167, 25, 0.8);
+        .node-icon {
+            background: linear-gradient(129deg, rgba(255, 222, 130, 0.2) 18%, rgba(253, 167, 82, 0.2) 86%);
+        }
+        .circle-top, .circle-right, .circle-bottom, .circle-left {
+            border-color: #FFA719;
+        }
+    }
+
+    &.node3 {
+        .node-content div {
+            color: rgba(20, 46, 221, .8);
+        }
+    }
+}

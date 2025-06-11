@@ -1,0 +1,38 @@
+{
+  "app-title": "鼎捷售後雲",
+  "dw-login-warning-see": "確定",
+  "menu": {
+    "home": "首頁",
+    "bases": "基本配置",
+    "crs": "叫修服務",
+    "organizer": "組織人員",
+    "basic-information": "基礎信息",
+    "settlement-setting": "結算設置",
+    "so-setting": "工單設置"
+  },
+  "prog": {
+    "item-group": "配件分類",
+    "material": "配件信息",
+    "service-item": "服務項目",
+    "service-cost": "服務成本",
+    "customer": "客戶檔案",
+    "product-group": "產品分類",
+    "service-region": "服務區域",
+    "service-type": "服務類型",
+    "breakdown": "故障類別",
+    "service-employee": "人員管理",
+    "product-file": "產品檔案",
+    "service-site": "服務站點",
+    "personnel-level":"人员等级",
+    "service-urgency": "緊急度",
+    "service-order": "服務工單",
+    "auto-settings": "工單流程配置",
+    "beginning-import": "期初導入",
+    "quote-type": "報價類型",
+    "quotation": "服務報價單",
+    "chargeable-qr-code": "收款二維碼",
+    "common-phrase": "常用語",
+    "datagroup-configuration": "數據分組配置",
+    "engineer-schedule": "日程總覽"
+  }
+}

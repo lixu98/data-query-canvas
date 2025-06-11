@@ -1,0 +1,46 @@
+<nz-modal [nzVisible]="true" nzTitle="编辑模型" (nzOnCancel)="close()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="form">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="mainBusinessModelName">主模型</nz-form-label>
+                <nz-form-control>
+                    <input type="text" formControlName="mainBusinessModelName" nz-input id="mainBusinessModelName" placeholder="请输入" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="virtualBusinessModelCode">模型编号</nz-form-label>
+                <nz-form-control nzErrorTip="请输入模型编号">
+                    <input type="text" formControlName="virtualBusinessModelCode" nz-input id="virtualBusinessModelCode" placeholder="请输入" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="virtualBusinessModelName">模型名称</nz-form-label>
+                <nz-form-control nzErrorTip="请输入模型名称">
+                    <input type="text" formControlName="virtualBusinessModelName" nz-input id="virtualBusinessModelName" placeholder="请输入" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="domainName">所属领域</nz-form-label>
+                <nz-form-control>
+                    <input type="text" formControlName="domainName" nz-input id="domainName" placeholder="请输入" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="dbCode">数据源</nz-form-label>
+                <nz-form-control nzErrorTip="请选择数据源">
+                    <nz-select formControlName="dbCode" id="dbCode" nzPlaceHolder="请选择">
+                        <nz-option *ngFor="let option of dbCodeOptions" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item *ngIf="false">
+                <nz-form-label nzFor="remark">描述</nz-form-label>
+                <nz-form-control>
+                    <nz-textarea-count [nzMaxCharacterCount]="200">
+                        <textarea formControlName="remark" nz-input rows="4" id="remark" placeholder="请输入"></textarea>
+                    </nz-textarea-count>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>

@@ -1,0 +1,250 @@
+<nz-content class="dw-f-content-view" [ngClass]="{'view':isView}">
+  <form nz-form [formGroup]="validateForm">
+    <!-- 單頭 -->
+    <div nz-row [nzJustify]="'start'">
+      <div nz-col [nzSpan]="24" class="dw-f-top-btn-bar">
+        <nz-form-item nz-row>
+          <div nz-col [nzSpan]="24" class="dw-f-txt-right">
+            <button type="button" *ngIf="isView && isCanEdit && isCanDelete" nz-button [nzType]="'default'"
+              dwActionAuthorized [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'" (dwClick)="deleteMaster()"
+              [nzLoading]="isDeleting">
+              <i nz-icon nzType="delete" nzTheme="outline"></i>
+              <span translate>dw-tree-menu-刪除整筆</span>
+            </button>
+          </div>
+        </nz-form-item>
+      </div>
+      <!-- /.  -->
+      <div class="master-title" nz-col [nzSpan]="24">
+        <span translate>dw-tree-menu-集團公司設定</span>
+        <span class="dw-f-btn-edit">
+          <a *ngIf="isView && isCanEdit" dwActionAuthorized [dwActionId]="'modify'" [dwDefaultAuthorized]="'disabled'"
+            (dwClick)="masterModify()" translate><i nz-icon nzType="edit" nzTheme="outline"
+              *ngIf="isView && isCanEdit"></i>dw-tree-menu-編輯</a></span>
+        <!-- <i nz-icon dwType="edit" dwTheme="outline" *ngIf="isView && isCanEdit"></i>
+        <a *ngIf="isView && isCanEdit" (click)="masterModify()" translate>dw-tree-menu-編輯</a> -->
+
+      </div>
+      <div nz-row [nzGutter]="10" class="dw-f-form-head">
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item nz-row *ngIf="isView">
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title" nzRequired>
+              {{ 'dw-tree-menu-集團編號' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{ master.groupId }}</nz-form-control>
+          </nz-form-item>
+          <dw-form-input *ngIf="!isView" formControlName="groupId" dwLabel="{{'dw-tree-menu-集團編號' | translate}}"
+            dwLabelSpan="9" dwInputSpan="15" [attr.disabled]="!isView" [dwRequired]="true">
+          </dw-form-input>
+        </div>
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item nz-row *ngIf="isView">
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title" nzRequired>
+              {{ 'dw-tree-menu-集團名稱' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{ master.groupName }}</nz-form-control>
+          </nz-form-item>
+          <dw-form-input *ngIf="!isView" formControlName="groupName" dwLabel="{{'dw-tree-menu-集團名稱' | translate}}"
+            dwLabelSpan="9" dwInputSpan="15" [dwRequired]="true">
+          </dw-form-input>
+        </div>
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item nz-row *ngIf="isView">
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title">
+              {{ 'dw-tree-menu-幣別設定' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{ master.currencyId }} {{ master.currencyName }}
+            </nz-form-control>
+          </nz-form-item>
+          <dw-form-select *ngIf="!isView" [dwOptionList]="currencyOptions | async"
+            dwLabel="{{'dw-tree-menu-幣別設定' | translate}}" [dwPlaceHolder]="'dw-tree-menu-請選擇' | translate"
+            [dwNotFoundContent]="'dw-tree-menu-無選項' | translate" dwLabelSpan="9"></dw-form-select>
+        </div>
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title">
+              {{ 'dw-tree-menu-來源企業編號' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{ master.sourceId }}</nz-form-control>
+          </nz-form-item>
+          <dw-form-input *ngIf="!isView" formControlName="sourceId" dwLabel="{{'dw-tree-menu-來源企業編號' | translate}}"
+            dwLabelSpan="9" dwInputSpan="15" [dwRequired]="false">
+          </dw-form-input>
+        </div>
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item nz-row *ngIf="isView">
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title">
+              {{ 'dw-tree-menu-集團匯率檔設定' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{
+              treeMenuService.showLabel(master.exchangeWay,'exchangeWayOptions') | async }}</nz-form-control>
+          </nz-form-item>
+          <dw-form-select *ngIf="!isView" [dwOptionList]="exchangeWayOptions | async" formControlName="exchangeWay"
+            dwLabel="{{'dw-tree-menu-集團匯率檔設定' | translate}}" [dwPlaceHolder]="'dw-tree-menu-請選擇' | translate"
+            [dwNotFoundContent]="'dw-tree-menu-無選項' | translate" dwLabelSpan="9" dwInputSpan="15" [dwRequired]="false">
+          </dw-form-select>
+        </div>
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item nz-row *ngIf="isView">
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title">
+              {{ 'dw-tree-menu-匯率類別' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{
+              treeMenuService.showLabel(master.exchangeClass,'exchangeClassOptions') | async }}</nz-form-control>
+          </nz-form-item>
+          <dw-form-select *ngIf="!isView" [dwOptionList]="exchangeClassOptions | async" formControlName="exchangeClass"
+            dwLabel="{{'dw-tree-menu-匯率類別' | translate}}" [dwPlaceHolder]="'dw-tree-menu-請選擇' | translate"
+            [dwNotFoundContent]="'dw-tree-menu-無選項' | translate" dwLabelSpan="9" dwInputSpan="15" [dwRequired]="false">
+          </dw-form-select>
+        </div>
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item nz-row *ngIf="isView">
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title">
+              {{ 'dw-tree-menu-匯率來源公司' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{
+              treeMenuService.showLabel(master.exchangeSource,'exchangeSourceOptions') | async }}</nz-form-control>
+          </nz-form-item>
+          <dw-form-select *ngIf="!isView"
+          [dwOptionList]="exchangeSourceOptions | async"
+          formControlName="exchangeSource"
+          dwLabel="{{'dw-tree-menu-匯率來源公司' | translate}}"
+          [dwPlaceHolder]="'dw-tree-menu-請選擇' | translate"
+          [dwNotFoundContent]="'dw-tree-menu-無選項' | translate"
+          dwLabelSpan="9"
+          dwInputSpan="15"
+          [dwRequired]="false">
+        </dw-form-select>
+        </div>
+        <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+          <nz-form-item nz-row *ngIf="isView">
+            <nz-form-label [nzSpan]="8" class="dw-f-label-title" nzRequired>
+              {{ 'dw-tree-menu-狀態碼' | translate }}
+            </nz-form-label>
+            <nz-form-control [nzSpan]="16" class="dw-f-control-data">{{
+              treeMenuService.showLabel(master.status,'searchStatusOptions') | async }}</nz-form-control>
+
+          </nz-form-item>
+          <dw-form-select *ngIf="!isView" [dwOptionList]="searchStatusOptions | async" formControlName="status"
+            dwLabel="{{'dw-tree-menu-狀態碼' | translate}}" [dwPlaceHolder]="'dw-tree-menu-請選擇' | translate"
+            [dwNotFoundContent]="'dw-tree-menu-無選項' | translate" dwLabelSpan="9" dwInputSpan="15" [dwRequired]="true">
+          </dw-form-select>
+        </div>
+      </div>
+      <!-- 表單按鈕 -->
+      <div nz-row [nzGutter]="20" [nzJustify]="'start'">
+        <div nz-col [nzSpan]="24" *ngIf="!isView">
+          <div dw-form-item nz-row>
+            <button nz-button type="button" (click)="cancel()">{{ 'dw-cancel' | translate }}</button>
+            <button nz-button type="button" dwActionAuthorized [dwActionId]="'add'" [dwDefaultAuthorized]="'disabled'"
+              (dwClick)="save()" [nzType]="'primary'" [disabled]="!validateForm.valid" [nzLoading]="isSaving">{{
+              'dw-save' | translate }}</button>
+          </div>
+        </div>
+      </div>
+      <!-- /. 表單按鈕 -->
+    </div>
+
+  </form>
+
+  <!-- 單身 -->
+
+  <div  class="dw-f-form-box" [class.action-disable]="!isView">
+    <nz-card [nzBordered]="false" [nzTitle]="title" class="dw-f-row-bottom-margin">
+      <ng-template #title>
+        {{ 'dw-tree-menu-細部設定' | translate }}
+      </ng-template>
+      <div class="search-result-list">
+        <nz-table #dwTable [nzData]="detail" [nzShowPagination]="false" [nzShowSizeChanger]="true"
+          [nzLoading]="searchLoading">
+          <thead>
+            <tr>
+              <th>
+                <span translate>dw-tree-menu-序列號</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-公司編號</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-公司名稱</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-幣別編號</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-幣別名稱</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-是否執行</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-開始日期</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-結束日期</span>
+              </th>
+              <th>
+                <span translate>dw-tree-menu-操作</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of dwTable.data; let idx = index">
+              <td>
+                {{data.seq}}
+              </td>
+              <td>
+                {{data.companyId}}
+              </td>
+              <td>
+                {{data.companyName}}
+              </td>
+              <td>
+                {{data.currencyId}}
+              </td>
+              <td>
+                {{treeMenuService.showLabel(data.currencyId,'currencyOptions') | async}}
+              </td>
+              <td>
+                {{data.status}}
+              </td>
+              <td>
+                {{data.startDate}}
+              </td>
+              <td>
+                {{data.endDate}}
+              </td>
+              <td>
+                <span class="dw-link-txt">
+                  <a dwActionAuthorized [dwActionId]="'modify'" [dwDefaultAuthorized]="'disabled'"
+                    (dwClick)="detailModify(idx)" translate>dw-tree-menu-修改</a>
+                  <span dw-table-divider></span>
+                  <a nz-popconfirm [nzPopconfirmTitle]="'dw-tree-menu-是否刪除'|translate"
+                    (nzOnConfirm)="detailDelete(data.seq)" [nzOkText]="'dw-determine' | translate"
+                    [nzCancelText]="'dw-cancel' | translate" [nzPopconfirmPlacement]="'topRight'" dwActionAuthorized
+                    [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'" translate>dw-tree-menu-刪除</a>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+      <div nz-row *ngIf="isCanEdit">
+        <div nz-col [nzSpan]="24">
+          <button type="button" class="dw-f-btn-w100" nz-button [nzType]="'dashed'" [nzSize]="'large'"
+            dwActionAuthorized [dwActionId]="'add'" [dwDefaultAuthorized]="'disabled'" (dwClick)="detailAdd($event)">
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            <span translate>dw-tree-menu-新增</span>
+          </button>
+        </div>
+      </div>
+
+    </nz-card>
+  </div>
+  <ng-template #modifyDetailTitle>
+    <span translate>dw-tree-menu-編輯公司設定</span>
+  </ng-template>
+  <ng-template #addDetailTitle>
+    <span translate>dw-tree-menu-新增公司明細</span>
+  </ng-template>
+</nz-content>

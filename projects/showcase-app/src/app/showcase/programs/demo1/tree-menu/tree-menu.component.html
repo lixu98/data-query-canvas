@@ -1,0 +1,14 @@
+<nz-content class="dw-f-content-list dw-treemenu-wp">
+  <div class="dw-treemenu-left" #treeMenu>
+    <div [class.action-disable]="!isViewEvent"> 
+      <nz-tree [(nzData)]="treeMenuData"
+        [nzExpandedKeys]="expandKeys"
+        (nzExpandChange)="expandDataCache($event)"
+        (nzClick)="openDetail($event)">
+      </nz-tree>
+    </div>
+  </div>
+  <div  class="dw-treemenu-right">
+    <app-dw-demo-list [treeItemObserve]="treeItemSubject" (deleteTreeMenu)="doDeleteTreeMenu($event)" (isViewEvent)="doIsViewEvent($event)"></app-dw-demo-list>
+  </div>
+</nz-content>

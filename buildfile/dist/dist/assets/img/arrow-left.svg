@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>返回箭头</title>
+    <desc>Created with Sketch.</desc>
+    <g id="返回箭头" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" x="0" y="0" width="24" height="24"></rect>
+        <g id="编组" transform="translate(15.500000, 12.120815) rotate(-45.000000) translate(-15.500000, -12.120815) translate(7.000000, 3.620815)" fill="#9A9CA2">
+            <rect id="矩形" x="0.707106781" y="0.636038969" width="16" height="2" rx="1"></rect>
+            <path d="M-5.36396103,7.70710678 L8.63603897,7.70710678 C9.18832372,7.70710678 9.63603897,8.15482203 9.63603897,8.70710678 C9.63603897,9.25939153 9.18832372,9.70710678 8.63603897,9.70710678 L-5.36396103,9.70710678 C-5.91624578,9.70710678 -6.36396103,9.25939153 -6.36396103,8.70710678 C-6.36396103,8.15482203 -5.91624578,7.70710678 -5.36396103,7.70710678 Z" id="矩形" transform="translate(1.636039, 8.707107) rotate(-270.000000) translate(-1.636039, -8.707107) "></path>
+        </g>
+    </g>
+</svg>

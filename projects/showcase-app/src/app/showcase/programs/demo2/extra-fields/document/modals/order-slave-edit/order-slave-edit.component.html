@@ -1,0 +1,30 @@
+<nz-content>
+  <form nz-form [formGroup]="detailEditForm" (ngSubmit)="emitDataOutside()">
+    <dw-form-input
+      formControlName="detailEditProductCode"
+      dwLabel="{{'dw-document-order-商品編號' | translate}}"
+      dwLabelSpan="6"
+      dwInputSpan="18"
+      [dwRequired]="true">
+    </dw-form-input>
+    <dw-form-input
+      formControlName="detailEditPrice"
+      dwLabel="{{'dw-document-order-銷售單價' | translate}}"
+      dwLabelSpan="6"
+      dwInputSpan="18"
+      [dwRequired]="true">
+    </dw-form-input>
+    <nz-form-item nz-row>
+      <nz-form-label nz-col [nzSpan]="6" nzRequired >
+        <span translate>dw-document-order-數量</span>
+      </nz-form-label>
+      <nz-form-control nz-col [nzSpan]="18">
+        <nz-input-number formControlName="detailEditQuantity" [nzMin]="1"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <div class="customize-footer">
+      <button nz-button type="submit" [nzType]="'primary'" [disabled]="!detailEditForm.valid" ><span translate>dw-determine</span></button>
+      <button nz-button type="button" [nzType]="'default'" (click)="handleCancel($event)" ><span translate>dw-cancel</span></button>
+    </div>
+  </form>
+</nz-content>

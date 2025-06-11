@@ -1,0 +1,215 @@
+<nz-content class="dw-f-content-edit">
+  <form nz-form [formGroup]="validateForm" >
+  <!-- 單頭 -->
+  <div nz-row [nzJustify]="'start'">
+
+    <div class="master-title" nz-col [nzSpan]="24">
+        <span translate>dw-group-group-company-setting</span>
+    </div>
+    <div nz-row [nzGutter]="10" class="dw-f-form-head">
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-input
+          formControlName="masterGroupId"
+          (change)="master.groupId=$event.target.value"
+          dwLabel="{{'dw-group-group-id' | translate}}"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="true">
+        </dw-form-input>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-input
+          formControlName="masterGroupName"
+          (change)="master.groupName=$event.target.value"
+          dwLabel="{{'dw-group-group-name' | translate}}"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="true">
+        </dw-form-input>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-select
+          [dwOptionList]="currencyOptions | async"
+          formControlName="masterCurrencyId"
+          dwLabel="{{'dw-group-currency-setting' | translate}}"
+          [dwPlaceHolder]="'dw-group-please-select' | translate"
+          [dwNotFoundContent]="'dw-group-no-options' | translate"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="false">
+        </dw-form-select>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-input
+          formControlName="masterSourceId"
+          (change)="master.sourceId=$event.target.value"
+          dwLabel="{{'dw-group-source-company-id' | translate}}"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="false">
+        </dw-form-input>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-select
+          [dwOptionList]="exchangeWayOptions | async"
+          formControlName="masterExchangeWay"
+          dwLabel="{{'dw-group-group-exchange-rate-setting' | translate}}"
+          [dwPlaceHolder]="'dw-group-please-select' | translate"
+          [dwNotFoundContent]="'dw-group-no-options' | translate"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="false">
+        </dw-form-select>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-select
+          [dwOptionList]="exchangeClassOptions | async"
+          formControlName="masterExchangeClass"
+          dwLabel="{{'dw-group-exchange-rate-category' | translate}}"
+          [dwPlaceHolder]="'dw-group-please-select' | translate"
+          [dwNotFoundContent]="'dw-group-no-options' | translate"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="false">
+        </dw-form-select>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-select
+          [dwOptionList]="exchangeSourceOptions | async"
+          formControlName="masterExchangeSource"
+          dwLabel="{{'dw-group-exchange-rate-source-company' | translate}}"
+          [dwPlaceHolder]="'dw-group-please-select' | translate"
+          [dwNotFoundContent]="'dw-group-no-options' | translate"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="false">
+        </dw-form-select>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <!-- 編排 空一欄 -->
+        <!-- /. 編排  空一欄 -->
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-select
+          [dwOptionList]="searchStatusOptions | async"
+          formControlName="masterStatus"
+          dwLabel="{{'dw-group-status-code' | translate}}"
+          [dwPlaceHolder]="'dw-group-please-select' | translate"
+          [dwNotFoundContent]="'dw-group-no-options' | translate"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="true">
+        </dw-form-select>
+      </div>
+    </div>
+
+  </div>
+
+
+<!-- 單身 -->
+
+<!-- <div *ngIf="!validateForm.valid"  style="background: #ffffff;z-index: 99;position:fixed;opacity:0.5;" #maskDiv></div> -->
+
+<div #detailDiv class="dw-f-form-box">
+  <nz-card [nzBordered]="false" [nzTitle]="title" class="dw-f-row-bottom-margin">
+      <ng-template #title>
+        {{ 'dw-group-detail-settings' | translate}}
+      </ng-template>
+          <div class="dw-f-table">
+              <nz-table #dwTable [nzData]="detail" [nzShowPagination]="false" [nzFrontPagination]="false" nzShowSizeChanger [nzLoading]="searchLoading">
+                <thead>
+                  <tr>
+                    <th>
+                      <span translate>dw-group-no</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-company-id</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-company-name</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-currency-id</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-currency-name</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-msg-confirm-execute</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-start-date</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-end-date</span>
+                    </th>
+                    <th>
+                      <span translate>dw-group-operating</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody dw-tbody>
+                  <tr *ngFor="let data of dwTable.data; let idx = index">
+                    <td>
+                      {{data.seq}}
+                    </td>
+                    <td>
+                      {{data.companyId}}
+                    </td>
+                    <td>
+                      {{data.companyName}}
+                    </td>
+                    <td>
+                      {{data.currencyId}}
+                    </td>
+                    <td>
+                      {{showLabel(data.currencyId,'currencyOptions') | async}}
+                    </td>
+                    <td>
+                      {{data.status}}
+                    </td>
+                    <td>
+                      {{data.startDate}}
+                    </td>
+                    <td>
+                      {{data.endDate}}
+                    </td>
+                    <td>
+                        <span >
+                          <a (click)="detailModify(idx)"  translate>dw-group-modify</a>
+                          <span dw-table-divider></span>
+                          <a nz-popconfirm [nzPopconfirmTitle]="'dw-group-msg-confirm-delete'|translate" (nzOnConfirm)="detailDelete(idx)"
+                            [nzOkText]="'dw-determine' | translate" [nzCancelText]="'dw-cancel' | translate" [nzPopconfirmPlacement]="'topRight'">
+                            {{ 'dw-group-delete' | translate}}
+                          </a>
+                        </span>
+                      </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </div>
+            <div nz-row *ngIf="validateForm.valid" class="dw-btn-add">
+              <div nz-col [nzSpan]="24">
+                  <button type="button" class="dw-f-btn-w100" nz-button [nzType]="'dashed'" [nzSize]="'large'" (click)="detailAdd()">
+                      <i nz-icon nzType="plus" nzTheme="outline"></i>
+                      <span translate>dw-group-add</span>
+                    </button>
+              </div>
+            </div>
+  </nz-card>
+</div>
+    <!-- 表單按鈕 -->
+    <nz-form-item nz-row class="dw-f-bottom-btn-bar">
+      <div nz-col [nzSpan]="24" class="dw-f-txt-center">
+          <button nz-button type="button" (click)="save()" [nzType]="'primary'" [disabled]="!validateForm.valid" [nzLoading]="isSaving">{{ 'dw-save' | translate }}</button>
+          <button nz-button type="button" (click)="cancel()">{{ 'dw-cancel' | translate }}</button>
+      </div>
+    </nz-form-item>
+  </form>
+</nz-content>
+<ng-template #modifyDetailTitle>
+  <span translate>dw-group-edit-company-settings</span>
+</ng-template>
+<ng-template #addDetailTitle>
+  <span translate>dw-group-add-company-settings</span>
+</ng-template>

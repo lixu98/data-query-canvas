@@ -1,0 +1,177 @@
+<nz-content class="dw-f-content-list">
+
+  <!-- 查詢條件 -->
+  <form nz-form [formGroup]="searchForm">
+    <div nz-row class="ant-advanced-search-form dw-f-search-form-block">
+      <div nz-col [nzSpan]="24" [nzLg]="{span: 23}">
+        <div nz-row [nzGutter]="5">
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="groupId"
+              dwLabel="{{'dw-group-group-id' | translate}}"
+              dwLabelSpan="7"
+              dwInputSpan="17"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="groupName"
+              dwLabel="{{'dw-group-group-name' | translate}}"
+              dwLabelSpan="7"
+              dwInputSpan="17"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="currencyId"
+              dwLabel="{{'dw-group-currency-id' | translate}}"
+              dwLabelSpan="7"
+              dwInputSpan="17"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+
+        </div>
+
+        <div nz-row [nzGutter]="5" [style.display]="!isCollapse?'block':'none'">
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="currencyName"
+              dwLabel="{{'dw-group-currency-name' | translate}}"
+              dwLabelSpan="7"
+              dwInputSpan="17"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              formControlName="sourceId"
+              dwLabel="{{'dw-group-source-company-id' | translate}}"
+              dwLabelSpan="7"
+              dwInputSpan="17"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-select
+              [dwOptionList]="searchStatusOptions | async"
+              formControlName="status"
+              dwLabel="{{'dw-group-status-code' | translate}}"
+              [dwPlaceHolder]="'dw-group-please-select' | translate"
+              [dwNotFoundContent]="'dw-group-no-options' | translate"
+              dwLabelSpan="7"
+              dwInputSpan="17">
+            </dw-form-select>
+          </div>
+        </div>
+
+        <div nz-row class="search-form-row">
+          <div nz-col [nzSpan]="24" class="dw-f-txt-right">
+            <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'query'" [dwDefaultAuthorized]="'hidden'" (dwClick)="searchData(true)">{{ 'dw-group-query' | translate }}
+            </button>
+            <button nz-button type="button" (click)="resetForm()">{{ 'dw-group-clear' | translate }}</button>
+            <a class="dw-f-link-more" (click)="isCollapse = !isCollapse">
+              {{ 'dw-group-advanced-query' | translate }}
+              <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+  <div nz-row class="dw-f-btn-bar-action">
+    <div nz-col [nzSpan]="24">
+      <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'add'" [dwDefaultAuthorized]="'disabled'"  (dwClick)="addDataModal()">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+        <span translate>dw-group-add</span>
+      </button>
+      <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'"  (dwClick)="operateData('delete')" [disabled]="disabledButton" [nzLoading]="operating">
+          <!-- <i nz-icon dwType="minus" dwTheme="outline"></i> -->
+          <span translate>dw-group-delete</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="dw-f-table">
+    <div *ngIf="checkedNumber">
+        <nz-alert [nzType]="'info'" [nzMessage]="checkedDescription" nzShowIcon class="dw-f-row-bottom"></nz-alert>
+    </div>
+    <nz-table #dwTable [nzData]="dataSet" [nzLoading]="searchLoading" [nzTotal]="rowCount"
+              [nzPageSizeOptions]="['1','2','3','4','5']"
+              [nzFrontPagination]="false"
+              [nzShowSizeChanger]="true"
+              [nzShowPagination]="true"
+              [nzShowQuickJumper]="true"
+              [(nzPageIndex)]="search.pageIndex"
+              (nzPageIndexChange)="onPageIndexChange()"
+              [(nzPageSize)]="search.pageSize"
+              (nzPageSizeChange)="onPageSizeChange()">
+      <thead>
+      <tr>
+        <th nzShowCheckbox [nzChecked]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)">
+        </th>
+        <th>
+            <span translate>dw-group-status-code</span>
+          </th>
+        <th>
+          <span translate>dw-group-group-id</span>
+        </th>
+        <th>
+          <span translate>dw-group-group-name</span>
+        </th>
+        <th nzShowSort [(nzSortOrder)]="sortMap.currencyId" (nzSortOrderChange)="sortBy('currencyId',$event)">
+          <span translate>dw-group-currency-id</span>
+        </th>
+        <th>
+          <span translate>dw-group-currency-name</span>
+        </th>
+        <th>
+          <span translate>dw-group-source-company-id</span>
+        </th>
+        <th>
+          <span translate>dw-group-automatic-copy-exchange-rate</span>
+        </th>
+        <th>
+            <span translate>dw-group-operating</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of dwTable.data">
+          <td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus($event)">
+          </td>
+          <td>
+            {{data.statusDesc}}
+          </td>
+          <td>
+            <a dwActionAuthorized [dwActionId]="'view'" [dwDefaultAuthorized]="'disabled'" (dwClick)="view(data.groupId)">{{data.groupId}}</a>
+          </td>
+          <td>
+            {{data.groupName}}
+          </td>
+          <td>
+            {{data.currencyId}}
+          </td>
+          <td>
+            {{data.currencyName}}
+          </td>
+          <td>
+            {{data.sourceId}}
+          </td>
+          <td>
+            {{groupService.showLabel(data.exchangeWay,'exchangeWayOptions') | async}}
+          </td>
+          <td>
+            <span>
+              <a dwActionAuthorized [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'" (dwClick)="showConfirm(data)" translate>dw-group-delete</a>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-content>

@@ -1,0 +1,14 @@
+{
+  "dw-input-listwin-title-1": "Backend paging (multiple select) - DwQueryCondition",
+  "dw-input-listwin-title-2": "Frontend paging (single select)",
+  "dw-input-listwin-title-3": "Frontend paging (multiple select) - enumeration",
+  "dw-input-listwin-title-4": "Backend paging (multiple select) - return field - custom Tag(ng-template) - DwQueryConditionInfo",
+  "dw-input-listwin-title-5": "Frontend paging (single select) - return field",
+  "dw-input-listwin-title-6": "Backend paging (multiple select) - return field - custom Tag(function) - DwQueryConditionInfo",
+  "dw-input-listwin-title-7": "Backend paging (multiple select) - Error",
+  "dw-input-listwin-title-8": "Frontend paging (multiple select) - Table fixed header",
+  "dw-input-listwin-input": "input",
+  "dw-input-listwin-selected": "selected",
+  "dw-input-listwin-errorCode": "errorCode",
+  "dw-input-listwin-errorMessage": "errorMessage"
+}

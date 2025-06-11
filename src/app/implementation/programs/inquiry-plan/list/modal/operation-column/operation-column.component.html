@@ -1,0 +1,155 @@
+<nz-modal nzClassName="operation-column-modal" [nzVisible]="true" nzWidth="960px" [nzTitle]="(isEdit ? '编辑' : '新增') + '运算列'" (nzOnCancel)="close()" (nzOnOk)="handleOk()" [nzOkDisabled]="!currentExpression" [nzOkLoading]="loading">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="form" nzLayout="inline">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="column">字段编号</nz-form-label>
+                <nz-form-control [nzErrorTip]="errorTips.globalErrorTip">
+                    <input nz-input formControlName="column" id="column" placeholder="请输入" />
+                </nz-form-control>
+                <app-form-error-tip #errorTips name="字段编号"></app-form-error-tip>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="columnName">字段名称</nz-form-label>
+                <nz-form-control nzErrorTip="请输入字段名称">
+                    <input nz-input formControlName="columnName" id="columnName" placeholder="请输入" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item class="item-object">
+                <nz-form-label nzRequired nzFor="ownerPath">所属领域对象</nz-form-label>
+                <nz-form-control nzErrorTip="请选择所属领域对象">
+                    <nz-tree-select
+                        nzDropdownClassName="hide-switcher-noop"
+                        [nzNodes]="domainObjectTree"
+                        [nzDropdownStyle]="{ 'max-height': '240px' }"
+                        nzDefaultExpandAll
+                        nzPlaceHolder="请选择"
+                        formControlName="ownerPath"
+                        nzId="ownerPath"
+                        nzAllowClear
+                        nzShowSearch
+                        [nzHideUnMatched]="true"
+                    ></nz-tree-select>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+        <nz-tabset [nzTabBarExtraContent]="clearTpl">
+            <nz-tab *ngFor="let title of ['自定义']" [nzTitle]="title">
+                <ng-container [ngTemplateOutlet]="expressContent" [ngTemplateOutletContext]="{ $implicit: title }"></ng-container>
+            </nz-tab>
+            <ng-template #clearTpl>
+                <a nz-button nzType="link" [disabled]="!currentExpression" (click)="handleClear()">清空</a>
+            </ng-template>
+            <ng-template #expressContent let-tab>
+                <div class="express-content">
+                    <div class="content-left">
+                        <ng-container *ngIf="tab === '自定义'">
+                            <div class="content-left-main">
+                                <div class="left-type">
+                                    <div *ngFor="let type of referenceTypeList" [class.active]="referenceType === type.value" (click)="changeReferenceType(type.value)">
+                                        {{ type.label }}
+                                        <i nz-icon nzType="question-circle" nzTheme="outline" nz-tooltip [nzTooltipTitle]="type.message"></i>
+                                    </div>
+                                </div>
+                                <div class="left-tree">
+                                    <nz-input-group class="search-filter" [nzSuffix]="searchIcon">
+                                        <input type="text" nz-input placeholder="请输入关键词" [(ngModel)]="keyword" [ngModelOptions]="{standalone: true}" />
+                                    </nz-input-group>
+                                    <ng-template #searchIcon>
+                                        <svg width="16" height="16" viewBox="0 0 16 16"><g><g><path d="M11.019522833862304,11.726548092651367C10.065772833862304,12.521598092651367,8.838742833862305,12.999898092651367,7.499982833862305,12.999898092651367C4.462412833862304,12.999898092651367,1.9999828338623047,10.537498092651367,1.9999828338623047,7.499958092651367C1.9999828338623047,4.462408092651367,4.462412833862304,1.9999980926513672,7.499982833862305,1.9999980926513672C10.537552833862305,1.9999980926513672,12.999982833862305,4.462408092651367,12.999982833862305,7.499958092651367C12.999982833862305,8.838688092651367,12.521682833862304,10.065698092651367,11.726632833862304,11.019438092651367L11.853552833862304,11.146358092651367L13.853582833862305,13.146298092651367C13.947282833862305,13.240098092651367,13.999982833862305,13.367298092651367,13.999982833862305,13.499898092651367C13.999982833862305,13.775998092651367,13.776182833862304,13.999898092651367,13.499982833862305,13.999898092651367C13.367382833862305,13.999898092651367,13.240182833862304,13.947198092651368,13.146482833862304,13.853398092651368L11.146442833862304,11.853468092651367L11.019522833862304,11.726548092651367ZM11.999982833862305,7.499958092651367C11.999982833862305,5.014698092651367,9.985262833862304,2.999990092651367,7.499982833862305,2.999990092651367C5.014702833862305,2.999990092651367,2.9999828338623047,5.014698092651367,2.9999828338623047,7.499958092651367C2.9999828338623047,9.985218092651367,5.014702833862305,11.999918092651367,7.499982833862305,11.999918092651367C9.985262833862304,11.999918092651367,11.999982833862305,9.985218092651367,11.999982833862305,7.499958092651367Z" fill-rule="evenodd" fill="#A6A6B2" fill-opacity="1"/></g></g></svg>
+                                    </ng-template>
+                                    <nz-tree
+                                        class="hide-switcher-noop"
+                                        nzVirtualHeight="222px"
+                                        [nzData]="treeData"
+                                        nzBlockNode
+                                        nzExpandAll
+                                        [nzCheckStrictly]="true"
+                                        [(nzSelectedKeys)]="selectedKeys"
+                                        [nzSearchValue]="keyword"
+                                        [nzHideUnMatched]="true"
+                                        (nzClick)="onNodeChange($event)"
+                                    ></nz-tree>
+                                </div>
+                            </div>
+                            <div class="content-left-bottom">
+                                <nz-select [ngModel]="form.value.columnType" nzPlaceHolder="输出数据类型" (ngModelChange)="onColumnTypeChange($event)">
+                                    <nz-option *ngFor="let option of columnTypeOptions;" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                </nz-select>
+<!--                                    <nz-form-item class="mb0">-->
+<!--                                        <nz-form-control nzErrorTip="请选择输出数据类型">-->
+<!--                                            <nz-select formControlName="columnType" nzPlaceHolder="输出数据类型" nzAllowClear>-->
+<!--                                                <nz-option *ngFor="let option of columnTypeOptions;" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>-->
+<!--                                            </nz-select>-->
+<!--                                        </nz-form-control>-->
+<!--                                    </nz-form-item>-->
+                            </div>
+                        </ng-container>
+
+                        <div *ngIf="tab === '快速转化'" class="content-left-form">
+                            <form nz-form [formGroup]="conversionForm" nzLayout="vertical">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzFor="dataType">数据类型</nz-form-label>
+                                    <nz-form-control nzErrorTip="请选择数据类型">
+                                        <nz-select formControlName="dataType" id="dataType" nzPlaceHolder="请选择" nzAllowClear>
+                                            <nz-option *ngFor="let option of columnTypeOptions;" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzFor="columnSelect">字段选择</nz-form-label>
+                                    <nz-form-control nzErrorTip="请选择字段">
+                                        <nz-select formControlName="columnSelect" id="columnSelect" nzPlaceHolder="请选择" nzAllowClear>
+                                            <nz-option *ngFor="let option of columnTypeOptions;" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzFor="dateType">日期类型</nz-form-label>
+                                    <nz-form-control nzErrorTip="请选择日期类型">
+                                        <nz-select formControlName="dateType" id="dateType" nzPlaceHolder="请选择" nzAllowClear>
+                                            <nz-option *ngFor="let option of columnTypeOptions;" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label nzRequired nzFor="hms">时分秒</nz-form-label>
+                                    <nz-form-control nzErrorTip="请选择时分秒">
+                                        <nz-select formControlName="hms" id="hms" nzPlaceHolder="请选择" nzAllowClear>
+                                            <nz-option *ngFor="let option of columnTypeOptions;" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <button nz-button nzType="primary" (click)="handleConversion()">转化</button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="content-right">
+                        <div class="title_line">
+                            字段表达式预览
+                            <i nz-icon nzType="question-circle" nzTheme="outline" nz-tooltip nzTooltipTitle="选择函数和字段来构建表达式"></i>
+                        </div>
+                        <div class="content-expression">
+                            <app-expression-item
+                                *ngIf="currentExpression"
+                                [node]="currentExpression"
+                                [isRoot]="true"
+                                (nodeSelected)="onVariableSelected($event)"
+                                (nodeChange)="updateNode($event.id, $event)"
+                                (nodeDelete)="removeNode($event)">
+                            </app-expression-item>
+                            <app-empty-data *ngIf="!currentExpression" text="暂无内容，请先在左侧选择引用函数"></app-empty-data>
+                        </div>
+                        <div *ngIf="currentNode?.describe" class="tips">
+                            <span>函数描述：</span>{{ currentNode?.describe }}
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </nz-tabset>
+    </ng-container>
+</nz-modal>

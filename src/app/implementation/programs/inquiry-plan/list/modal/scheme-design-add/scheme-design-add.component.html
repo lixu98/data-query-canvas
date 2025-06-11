@@ -1,0 +1,79 @@
+<nz-modal [nzVisible]="true" [nzWidth]="960" nzClassName="scheme_add_modal" [nzTitle]="(isEdit ? '编辑' : '新增') + '查询方案'" (nzOnCancel)="close()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <div class="title_line">基本信息</div>
+        <form nz-form [formGroup]="form">
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="querySchemaName">方案名称</nz-form-label>
+                <nz-form-control nzErrorTip="请输入方案名称">
+                    <input type="text" formControlName="querySchemaName" nz-input id="querySchemaName" placeholder="请输入" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="querySchemaCode">方案编码</nz-form-label>
+                <nz-form-control *ngIf="!data?.id; else querySchemaCode" [nzErrorTip]="errorTips.globalErrorTip">
+                    <input type="text" formControlName="querySchemaCode" nz-input id="querySchemaCode" placeholder="请输入" />
+                </nz-form-control>
+                <ng-template #querySchemaCode>{{ form.get('querySchemaCode').value }}</ng-template>
+                <app-form-error-tip #errorTips name="方案编码"></app-form-error-tip>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="ownerApp">所属产品</nz-form-label>
+                <nz-form-control *ngIf="tenantType !== 2 && !data?.id; else ownerApp" nzErrorTip="请选择所属产品">
+                    <nz-select formControlName="ownerApp" id="ownerApp" nzPlaceHolder="请选择" nzAllowClear>
+                        <nz-option *ngFor="let option of ownerAppOptions" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+                <ng-template #ownerApp>{{ form.get('ownerApp').value }}</ng-template>
+            </nz-form-item>
+        </form>
+        <div class="table-search">
+            <div class="title_line">选择引用模型</div>
+            <nz-input-group class="search-filter" [nzPrefix]="searchIcon">
+                <input nz-input placeholder="请输入名称/编号" [(ngModel)]="keyword" [disabled]="disabledSearch" (ngModelChange)="onPaginationChange()" />
+            </nz-input-group>
+            <ng-template #searchIcon>
+                <svg width="16" height="16" viewBox="0 0 16 16"><g><g><path d="M11.019522833862304,11.726548092651367C10.065772833862304,12.521598092651367,8.838742833862305,12.999898092651367,7.499982833862305,12.999898092651367C4.462412833862304,12.999898092651367,1.9999828338623047,10.537498092651367,1.9999828338623047,7.499958092651367C1.9999828338623047,4.462408092651367,4.462412833862304,1.9999980926513672,7.499982833862305,1.9999980926513672C10.537552833862305,1.9999980926513672,12.999982833862305,4.462408092651367,12.999982833862305,7.499958092651367C12.999982833862305,8.838688092651367,12.521682833862304,10.065698092651367,11.726632833862304,11.019438092651367L11.853552833862304,11.146358092651367L13.853582833862305,13.146298092651367C13.947282833862305,13.240098092651367,13.999982833862305,13.367298092651367,13.999982833862305,13.499898092651367C13.999982833862305,13.775998092651367,13.776182833862304,13.999898092651367,13.499982833862305,13.999898092651367C13.367382833862305,13.999898092651367,13.240182833862304,13.947198092651368,13.146482833862304,13.853398092651368L11.146442833862304,11.853468092651367L11.019522833862304,11.726548092651367ZM11.999982833862305,7.499958092651367C11.999982833862305,5.014698092651367,9.985262833862304,2.999990092651367,7.499982833862305,2.999990092651367C5.014702833862305,2.999990092651367,2.9999828338623047,5.014698092651367,2.9999828338623047,7.499958092651367C2.9999828338623047,9.985218092651367,5.014702833862305,11.999918092651367,7.499982833862305,11.999918092651367C9.985262833862304,11.999918092651367,11.999982833862305,9.985218092651367,11.999982833862305,7.499958092651367Z" fill-rule="evenodd" fill="#A6A6B2" fill-opacity="1"/></g></g></svg>
+            </ng-template>
+        </div>
+        <nz-table
+            #fixedTable
+            nzSize="small"
+            nzBordered
+            [nzScroll]="{ y: '180px' }"
+            [nzData]="listOfData"
+            [nzFrontPagination]="false"
+            [nzShowQuickJumper]="true"
+            [nzShowSizeChanger]="true"
+            [nzShowTotal]="totalTpl"
+            [nzTotal]="pagination.total"
+            [nzPageIndex]="pagination.page"
+            [nzPageSize]="pagination.limit"
+            (nzPageIndexChange)="onPaginationChange($event)"
+            (nzPageSizeChange)="onPaginationChange($event, 'limit')"
+        >
+            <thead>
+                <tr>
+                    <th nzWidth="40px"></th>
+                    <th>模型名称</th>
+                    <th>模型编号</th>
+                    <th>模型类型</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of fixedTable.data" (click)="onModelChange(row)">
+                <td class="td-radio">
+                    <input type="radio" name="rowSelection" [checked]="data?.businessModelCode === row.modelCode">
+                </td>
+                <td>{{ row.modelName }}</td>
+                <td>{{ row.modelCode }}</td>
+                <td>{{ row.type === 'real' ? '标准业务模型' : '数据查询模型' }}</td>
+                <td>{{ row.createBy }}</td>
+                <td>{{ row.createDate }}</td>
+            </tr>
+            </tbody>
+            <ng-template #totalTpl let-total> 共 <span>{{ total }}</span> 条 </ng-template>
+        </nz-table>
+    </ng-container>
+</nz-modal>

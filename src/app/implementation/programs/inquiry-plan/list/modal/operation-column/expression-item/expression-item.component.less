@@ -1,0 +1,74 @@
+.expression-node {
+  font-size: 14px;
+  position: relative;
+
+  span, div {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &.root > span {
+    display: block;
+  }
+
+
+  .ant-btn-sm {
+    margin-left: 2px;
+    color: #A6A6B2;
+    fill: #A6A6B2;
+    min-width: 20px;
+    height: 20px;
+    padding: 0;
+    &:hover, &:active, &:focus {
+      color: #8f88f2;
+      fill: #8f88f2;
+    }
+    .change {
+      margin-left: 0;
+      //transform: scale(0.75);
+      //position: absolute;
+      //right: -10px;
+      //bottom: -10px;
+    }
+  }
+
+  .variable {
+    padding: 2px 6px;
+    color: #605CE5;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    .ant-input {
+      max-width: 100px;
+    }
+  }
+
+  .operator {
+    
+    &-symbol {
+      margin: 0 4px;
+      color: #8C8B99;
+      cursor: pointer;
+
+      &.selected {
+        background-color: #e4dcfc;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    &-select {
+      width: auto;
+    }
+  }
+
+  .selected {
+    background-color: #e4dcfc;
+    color: #605CE5;
+  }
+}

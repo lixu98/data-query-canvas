@@ -1,0 +1,299 @@
+<nz-content class="dw-f-input-listwin">
+<form nz-form>
+  <div nz-row [nzGutter]="24">
+    <!-- 後端分頁(多選) - 固定條件(DwQueryCondition) -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-1</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixDemoOrder">
+            <nz-select style="width: 100%" [(ngModel)]="demoOrder" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of demoOrder" [nzLabel]="option" [nzValue]="option"></nz-option>
+            </nz-select>
+            <!-- <input nz-input placeholder="input search text" [(ngModel)]="demoOrder" name="demoOrder"> -->
+          </nz-input-group>
+          <ng-template #suffixDemoOrder>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openDemoOrderWin($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-selected</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          {{demoOrder| json}}
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <!-- 前端分頁(單選) -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-2</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixMockData">
+            <nz-select style="width: 100%" [(ngModel)]="mockData" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of mockData" [nzLabel]="option" [nzValue]="option"></nz-option>
+            </nz-select>
+            <!-- <input nz-input placeholder="input search text" [(ngModel)]="mockData" name="mockData"> -->
+          </nz-input-group>
+          <ng-template #suffixMockData>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openMockDataWin($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-selected</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          {{mockData| json}}
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="24">
+    <!-- 後端分頁(多選) - 設定回傳欄位 -  自定義 Tag 格式(ng-template) -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-4</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSpecifyOrder">
+            <nz-select style="width: 100%" [(ngModel)]="specifyOrder" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of specifyOrder" [nzLabel]="option.orderid" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSpecifyOrder>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSpecifyOrderWin($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-selected</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          {{specifyOrder| json}}
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- 前端分頁(多選) - 枚舉 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-3</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixEnumData">
+            <nz-select style="width: 100%" [(ngModel)]="enumData" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of enumData" [nzLabel]="option" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixEnumData>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openEnumDataWin($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-selected</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          {{enumData| json}}
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="24">
+    <!-- 後端分頁(多選) - 開窗的錯誤 - 自定義 Tag 格式(function) -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-6</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSpecifyOrderFn">
+            <nz-select style="width: 100%" [(ngModel)]="specifyOrderFn" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of specifyOrderFn" [nzLabel]="option.orderid" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSpecifyOrderFn>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSpecifyOrderWinFn($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-selected</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          {{specifyOrderFn| json}}
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- 前端分頁(單選) - 設定回傳欄位 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-5</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSpecifyMock">
+            <nz-select style="width: 100%" [(ngModel)]="specifyMock" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of specifyMock" [nzLabel]="option.orderId" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSpecifyMock>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSpecifyMockWin($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-selected</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          {{specifyMock| json}}
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+
+  </div>
+
+  <div nz-row [nzGutter]="24">
+    <!-- 後端分頁(多選) - 開窗的錯誤 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-7</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixSpecifyOrderErr">
+            <nz-select style="width: 100%" [(ngModel)]="specifyOrderErr" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of specifyOrderErr" [nzLabel]="option.orderid" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixSpecifyOrderErr>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openSpecifyOrderWinError($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-errorMessage</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <div *ngIf="specifyOrderErrMsg" style="word-break:break-all;">{{specifyOrderErrMsg| json}}</div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <!-- 前端分頁(多選) - Table固定表頭 -->
+    <div nz-col [nzSpan]="12" class="dw-f-input-listwin-block">
+      <nz-form-item nz-row>
+        <nz-form-label nz-col [nzSpan]="24" class="title">
+          <span translate>dw-input-listwin-title-8</span>
+        </nz-form-label>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-input</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixTableMock">
+            <nz-select style="width: 100%" [(ngModel)]="tableMock" nzMode="multiple" [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let option of tableMock" [nzLabel]="option.orderId" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-input-group>
+          <ng-template #suffixTableMock>
+            <button nz-button type="button" nzType="primary" nzSearch (click)="openTableMockWin($event)">
+              <i nz-icon nzType="search" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row>
+        <nz-form-label nzSpan="24" nz-col [nzSm]="6" [nzXs]="24">
+          <span translate>dw-input-listwin-selected</span>
+        </nz-form-label>
+        <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+          {{tableMock| json}}
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+
+</form>
+</nz-content>
+
+<!-- 後端分頁(多選) - 設定回傳欄位 - 自定義 Tag 格式(ng-template) -->
+<ng-template #tagTemplate let-rowInfo="$implicit" let-config="config">
+  ({{rowInfo[config.idField]}}){{rowInfo[config.nameField]}}-{{rowInfo['customerid']}}
+</ng-template>
+<!-- (多選) -  自定義 選中筆數 格式(ng-template) -->
+<ng-template #selectedCountTemplate let-count="$implicit" let-config="config">
+  <span style="color:'#1890FF'">您已選中筆數: {{count}} 筆(自定義樣版)</span>
+</ng-template>

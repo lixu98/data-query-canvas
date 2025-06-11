@@ -1,0 +1,170 @@
+<nz-content class="dw-f-content-list">
+
+  <!-- 查詢條件 -->
+  <form nz-form [formGroup]="searchForm">
+    <div nz-row class="ant-advanced-search-form dw-f-search-form-block">
+
+      <div nz-col [nzSpan]="24" [nzLg]="{span: 23}">
+        <div nz-row [nzGutter]="5">
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              name="orderid"
+              formControlName="orderid"
+              dwLabel="{{'dw-document-order-訂單編號' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-select
+              [dwOptionList]="statusList"
+              formControlName="status"
+              dwMode="tags"
+              name="status"
+              dwLabel="{{'dw-document-order-狀態碼' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16">
+            </dw-form-select>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              name="totalcount"
+              formControlName="totalcount"
+              dwLabel="{{'dw-document-order-訂單總額' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="5" [style.display]="!isCollapse?'block':'none'">
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              name="customerid"
+              formControlName="customerid"
+              dwLabel="{{'dw-document-order-客戶名稱' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-input
+              name="employeename"
+              formControlName="employeename"
+              dwLabel="{{'dw-document-order-業務員姓名' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16"
+              [dwRequired]="false">
+            </dw-form-input>
+          </div>
+          <div nz-col [nzSpan]="8">
+            <dw-form-select
+              [dwOptionList]="genderList"
+              formControlName="gender"
+              dwMode="tags"
+              name="gender"
+              dwLabel="{{'dw-document-order-業務員性別' | translate}}"
+              dwLabelSpan="8"
+              dwInputSpan="16">
+            </dw-form-select>
+          </div>
+        </div>
+
+        <nz-divider nzText="{{'dw-extra-fields' | translate }}" nzOrientation="left"></nz-divider>
+        <!-- CRUD 設定檔 -->
+        <div nz-col [nzSpan]="24">
+          <dw-extra-fields #extraFieldControl
+            cols="3"
+            labelSpan="8"
+            inputSpan="16"
+            [group]="searchForm"
+            [dwDocument]="doc"
+            tableName="demo_order"
+            isValidate="false"
+          >
+        </dw-extra-fields>
+        </div>
+
+        <div nz-row class="search-form-row">
+          <div nz-col [nzSpan]="24">
+            <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'query'" [dwDefaultAuthorized]="'hidden'" (dwClick)="searchData(true)">{{ 'dw-document-order-查詢' | translate }}
+            </button>
+            <button nz-button type="button" (click)="resetForm()">{{ 'dw-document-order-清除' | translate }}</button>
+            <a class="dw-f-link-more" (click)="isCollapse = !isCollapse">
+              {{ 'dw-document-order-進階查詢' | translate }}
+              <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+  <div nz-row class="dw-f-btn-bar-action">
+    <div [nzSpan]="24" nz-col>
+      <button nz-button type="button" [nzType]="'primary'" dwActionAuthorized [dwActionId]="'add'" [dwDefaultAuthorized]="'disabled'" (dwClick)="create()">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+        <span translate>dw-document-order-新增</span>
+      </button>
+    </div>
+  </div>
+  <div class="dw-f-table">
+    <nz-table #dwTable [nzData]="dataSet" nzShowSizeChanger [nzLoading]="searchLoading" [nzTotal]="rowCount" [nzFrontPagination]="false"
+    [(nzPageIndex)]="queryInfo.pageNumber" (nzPageIndexChange)="onPageIndexChange()" [(nzPageSize)]="queryInfo.pageSize" (nzPageSizeChange)="onPageSizeChange()">
+      <thead>
+        <tr>
+          <th>
+            <span translate>dw-document-order-狀態碼</span>
+          </th>
+          <th>
+            <span translate>dw-document-order-訂單編號</span>
+          </th>
+          <th>
+            <span translate>dw-document-order-訂單日期</span>
+          </th>
+          <th>
+            <span translate>dw-document-order-訂單總額</span>
+          </th>
+          <th *ngFor="let c of extraFieldControl.extraFieldConfig">
+            {{c.field_label | translate}}
+          </th>
+          <th>
+            <span translate>dw-document-order-操作</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of dwTable.data; let rowIndex = index;">
+          <td>
+            {{data.status}}
+          </td>
+          <td>
+            <a dwActionAuthorized [dwActionId]="'modify'" [dwDefaultAuthorized]="'disabled'" (dwClick)="detail(data.orderid)">{{data.orderid}}</a>
+          </td>
+          <td>
+            {{data.orderdate | date:'yyyy/MM/dd HH:mm:ss a'}}
+          </td>
+          <td class="number-align">
+            {{data.totalcount | currency: 'TWD': '$': '1.0-0'}}
+          </td>
+          <td *ngFor="let c of extraFieldControl.extraFieldConfig">
+             {{ (data['cust_field'] && data['cust_field'].hasOwnProperty(c.field_id)) ? data['cust_field'][c.field_id] : null }}
+          </td>
+          <td>
+            <a dwActionAuthorized [dwActionId]="'modify'" [dwDefaultAuthorized]="'disabled'" (dwClick)="modify(data.orderid)" translate>dw-document-order-修改</a>
+            &nbsp;
+            <a nz-popconfirm [nzPopconfirmTitle]="'dw-document-order-是否刪除' | translate" (nzOnConfirm)="delete(rowIndex)"
+            [nzOkText]="'dw-determine' | translate" [nzCancelText]="'dw-cancel' | translate"
+            [nzPopconfirmPlacement]="'topRight'"
+            dwActionAuthorized [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'" translate>dw-document-order-刪除</a>
+            <!-- <a dwActionAuthorized [dwActionId]="'delete'" [dwDefaultAuthorized]="'disabled'" (dwClick)="delete(rowIndex)" translate>dw-document-order-刪除</a> -->
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-content>

@@ -1,0 +1,64 @@
+<nz-layout>
+  <nz-layout>
+    <nz-content>
+      <div nz-row nzJustify="center">
+        <div nz-col nzSpan="22">
+
+          <div nz-row [nzGutter]="20">
+
+          </div>
+
+          <div nz-row nzJustify="left" [nzGutter]="20" *ngFor="let component of demoComponents"
+               style="padding-bottom: 20px;">
+            <div nz-col nzSpan="24">
+              <nz-divider [nzText]="text"></nz-divider>
+              <ng-template #text>
+                <h1 [attr.id]="component.selector">{{component.title}}</h1>
+              </ng-template>
+            </div>
+
+            <div nz-col nzSpan="24" *ngFor="let example of component.examples"
+                 style="padding: 10px;">
+              <nz-card [nzTitle]="example.title" [attr.id]="example.id">
+                <nz-tabset>
+                  <nz-tab nzTitle="范例">
+                    <ng-container *ngComponentOutlet="example.type"></ng-container>
+                  </nz-tab>
+                  <nz-tab nzTitle="代码">
+                    <pre><code highlight [code]="example.code" [language]="['typescript']"></code></pre>
+                  </nz-tab>
+                </nz-tabset>
+              </nz-card>
+            </div>
+
+            <div nz-col nzSpan="24" *ngIf="component.doc">
+              <ng-container *ngComponentOutlet="component.doc"></ng-container>
+            </div>
+          </div>
+
+          <!--<div nz-row dwType="flex" dwJustify="left" [dwGutter]="20">
+            <div nz-col dwSpan="20">
+              <dw-form-items-common-doc></dw-form-items-common-doc>
+            </div>
+          </div>-->
+
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-sider style="background-color: #fff">
+
+        <nz-anchor nzOffsetTop="42" [nzContainer]="'.dw-f-layout-content'">
+          <nz-link *ngFor="let component of demoComponents"
+                   [nzHref]="'#'+component.selector"
+                   [nzTitle]="component.title">
+            <nz-link *ngFor="let example of component.examples"
+                     [nzHref]="'#'+example.id"
+                     [nzTitle]="example.title"></nz-link>
+          </nz-link>
+        </nz-anchor>
+
+    </nz-sider>
+  </nz-layout>
+</nz-layout>
+<br/><br/><br/>

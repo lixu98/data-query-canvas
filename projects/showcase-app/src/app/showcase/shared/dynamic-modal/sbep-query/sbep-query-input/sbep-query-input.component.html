@@ -1,0 +1,11 @@
+<nz-input-group nzSearch [nzAddOnAfter]="iconSearch">
+  <nz-select style="width: 100%" [(ngModel)]="selected" nzMode="multiple" [compareWith]="compareWith" (ngModelChange)="ngModelChange($event)">
+    <nz-option *ngFor="let items of selected" [nzLabel]="items.name" [nzValue]="items"></nz-option>
+  </nz-select>
+</nz-input-group>
+
+<ng-template #iconSearch>
+  <button nz-button type="button" nzType="primary" nzSearch (click)="openWin()">
+    <i nz-icon nzType="search" nzTheme="outline"></i>
+  </button>
+</ng-template>

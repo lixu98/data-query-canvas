@@ -1,0 +1,21 @@
+<form nz-form [formGroup]="validateForm">
+  <nz-form-item nz-row>
+    <nz-form-label nz-col [nzSm]="6" [nzXs]="24" for="email" nzRequired>{{'dw-messages-訊息'| translate}}</nz-form-label>
+    <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback [nzErrorTip]="messageErrorTpl">
+      <input nz-input formControlName="message">
+      <ng-template #messageErrorTpl>
+        <ng-container *ngIf="getFormControl('message').dirty && getFormControl('message').errors?.required">
+          {{'dw-messages-請輸入訊息'| translate}}
+        </ng-container>
+      </ng-template>
+    </nz-form-control>
+    <div nz-col>
+      <button nz-button [nzSize]="'small'" (click)="addMessage()">{{'dw-messages-加'| translate}}</button>
+    </div>
+  </nz-form-item>
+  <nz-form-item nz-row style="margin-bottom:8px;">
+    <nz-form-control nzSpan="24" nz-col [nzOffset]="6">
+      <button nz-button [nzType]="'primary'" (click)="_submitForm()" [disabled]="messages.length === 0">{{'dw-messages-發送'| translate}}</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

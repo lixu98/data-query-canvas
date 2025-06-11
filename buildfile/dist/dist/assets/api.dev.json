@@ -1,0 +1,27 @@
+{
+  "apiUrl": "https://assc-crs-test.apps.digiwincloud.com.cn",
+  "pctApiUrl": "https://assc-pct-test.apps.digiwincloud.com.cn",
+  "kbsWebUrl": "https://assc-kbs-test.apps.digiwincloud.com.cn",
+  "ppuApiUrl": "https://assc-ppu-test.apps.digiwincloud.com.cn",
+  "cssApiUrl": "https://assc-css-test.apps.digiwincloud.com.cn",
+  "ssmApiUrl": "https://assc-ssm-test.apps.digiwincloud.com.cn",
+  "dsaApiUrl": "https://assc-dsa-test.apps.digiwincloud.com.cn",
+  "iamUrl": "https://iam-test.digiwincloud.com.cn",
+  "importTemplateID": "fbc15fb4-f691-4e88-a6a5-2c04423569de",
+  "importQuickwearTemplateID": "ce9c7f78-fd60-4c8c-afc5-5f36e218e6be",
+  "emcUrl": "@EMC_SERVICE_URL@",
+  "omUrl": "@OM_URL@",
+  "consoleUrl": "@CONSOLE_URL@",
+  "marketUrl": "@MARKET_URL@",
+  "cmcUrl": "@CMC_SERVICE_URL@",
+  "omcUrl": "@OMC_SERVICE_URL@",
+  "gmcUrl": "@GMC_SERVICE_URL@",
+  "cacUrl": "@CAC_SERVICE_URL@",
+  "frUrl": "@FINEREPORT_URL@",
+  "dmcUrl": "@DMC_SERVICE_URL@",
+  "analytics": {
+    "gtm": "@ANALYTICS_GTM@",
+    "baidu": "@ANALYTICS_BAIDU@"
+  },
+  "multiTenant": "true"
+}

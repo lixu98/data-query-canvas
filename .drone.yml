@@ -1,0 +1,121 @@
+#211
+kind: pipeline
+type: docker
+name: CI Process
+steps:
+  - name: 通过 npm 进行 package
+    image: node:14.21.1
+    environment:
+      modulePath:
+    commands:
+      - npm config set prefix "/var/lib/node_modules"
+      - npm config set registry=https://registry.npmmirror.com
+      - npm config set @webdpt:registry=https://repo.digiwincloud.com.cn/maven/repository/npm-webdpt/
+      - npm install
+      - npm cache clean --force
+      - rm -rf node_modules/.cache/angular-build-dl
+      - npm run build
+    volumes:
+      - name: cache # The Volume's name
+        path: /root/.npm # The path in the container
+      - name: node
+        path: /drone/src/node_modules
+    when:
+      status: [success]
+  - name: sonar 掃描
+    image: registry.digiwincloud.com.cn/dwappbmc/sonar-scanner-cli:latest
+    #image: aosapps/drone-sonar-plugin
+    settings:
+      usingProperties: true
+      sonar_host: https://bmc-devops-sonarqube.digiwincloud.com.cn
+      sonar_token:
+        from_secret: sonarToken
+    when:
+      branch:
+        - develop #RELEASE_RESET
+      event:
+        - push
+   #     - cron
+      #  - custom
+  - name: 稽核結果通知
+    image: registry.digiwincloud.com.cn/cloud/audit_notification
+    settings:
+      username:
+        from_secret: giteauser
+      password:
+        from_secret: giteapwd
+    environment:
+      SONAR_TOKEN:
+        from_secret: sonarToken
+    commands:
+      - export URL=https://bmc-devops-sonarqube.digiwincloud.com.cn
+      - export TOKEN=$SONAR_TOKEN
+      - export PROJECTKEY=BMC-DQT:bmc-dqt_frontend
+      - export NOTIFY=bug,vulnerability  #此行不傳則每次執行都會寄送郵件通知
+      - export TO=${DRONE_COMMIT_AUTHOR_EMAIL}  #推送代碼的人
+      - export CHECKREQUIRE=true #是否檢查結果
+      - cd /audit
+      - ./audit
+  - name: version control
+    image: registry.digiwincloud.com.cn/base/base_vc
+    commands:
+      - make -C version_control branch=$DRONE_TARGET_BRANCH # $DRONE_TARGET_BRANCH这个参数是当前打包分支
+    when:
+      status: [success]
+  - name: tiger publish docker image
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: dockerUsername
+      password:
+        from_secret: dockerPassword
+      repo: registry.digiwincloud.com.cn/dwappbmc/bmc-dqt-atfrontend-5.2.0
+      registry: registry.digiwincloud.com.cn
+      experimental: true
+    when:
+      status: [success]
+  - name: 自動部署華為开发區
+    image: registry.digiwincloud.com.cn/cloud/automatic_deploy:latest
+    commands:
+      - export AUTOAPPID=bmc-dqt-at
+      - export AUTOAPPTYPE=frontend
+      - export AUTOPLATFORMVERSION=5.2.0
+      - export AUTOSMALLVERSION=1.3.0   #AUTOSMALLVERSION
+      - export AUTOCLOUD=Huawei
+      - export AUTOAREA=dev   #RELEASE_AREA
+      - export TENANTID=DWappbmc
+      - cd /auto
+      - ./app
+    when:
+      status: [ success ]
+      branch:
+        - develop #RELEASE_DISABLE
+        - master
+      event:
+        - push
+  - name: 钉钉通知
+    image: guoxudongdocker/drone-dingtalk
+    settings:
+      token:
+        from_secret: dingTalkToken
+      type: markdown
+      message_color: true
+      message_pic: true
+      sha_link: true
+    when:
+      status: [failure, success]
+trigger:
+  branch:
+    - develop
+    - test
+  event:
+    - push
+    - pull_request
+    - cron
+volumes:
+  - name: cache
+    host:
+      path: /var/lib/cache/npm-test
+  - name: node
+    host:
+      path: /data/package/bmc-dqt_node_modules

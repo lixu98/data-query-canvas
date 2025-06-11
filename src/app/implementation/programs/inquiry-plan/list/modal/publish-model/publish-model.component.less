@@ -1,0 +1,132 @@
+.tab_wrap {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 16px 0px 24px;
+    box-sizing: border-box;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #DFDFE5;
+
+    .tab_box {
+        display: flex;
+        align-items: center;
+    }
+
+    .tab_plan {
+        width: 72px;
+        height: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 10px 0px;
+        box-sizing: border-box;
+        font-size: 18px;
+        font-weight: normal;
+        letter-spacing: normal;
+        cursor: pointer;
+        margin-right: 32px;
+        color: #4D4C66;
+    }
+
+    .tab_model {
+        width: 36px;
+        height: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 10px 0px;
+        box-sizing: border-box;
+        font-size: 18px;
+        font-weight: normal;
+        letter-spacing: normal;
+        color: #4D4C66;
+        cursor: pointer;
+    }
+
+    .tab_active {
+        border-width: 0px 0px 2px 0px;
+        border-style: solid;
+        border-color: #605CE5;
+        color: #605CE5 !important;
+        font-weight: 600 !important;
+    }
+}
+
+.main_wrap {
+    width: 100%;
+    padding: 20px 24px 24px 24px;
+
+    .publish_tip {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+
+        .tip_title {
+            height: 16px;
+            font-size: 12px;
+            font-weight: normal;
+            line-height: 16px;
+            letter-spacing: normal;
+            color: #FF7F00;
+            margin-left: 5px;
+        }
+    }
+
+    .publish_tree_wrap {
+        width: 432px;
+        // padding: 12px 0px 0px 12px;
+        border-radius: 4px;
+        background: #FAFAFC;
+
+        .input_search {
+            width: 408px;
+            height: 28px;
+            border-radius: 4px;
+
+            ::ng-deep.ant-input-prefix {
+                width: 16px;
+                color: #ccc;
+            }
+        }
+
+        .tree_wrap {
+            margin-top: 12px;
+            overflow: auto;
+            height: 310px;
+        }
+
+        ::ng-deep .ant-tree {
+            background: #FAFAFC;
+        }
+
+        .node_title_wrap {
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+.footer_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .footer_title {
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: normal;
+        color: #8C8B99
+    }
+}
+
+::ng-deep.ant-spin .ant-spin-text {
+    padding: 0 10px;
+    font-size: 15px;
+}
+
+::ng-deep.ant-tree-checkbox {
+    margin-right: 0px;
+}

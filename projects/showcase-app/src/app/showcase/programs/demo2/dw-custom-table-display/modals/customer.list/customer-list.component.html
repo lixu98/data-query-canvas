@@ -1,0 +1,24 @@
+<nz-radio-group  [(ngModel)]="customerName">
+  <nz-table #dwTable [nzData]="customers" [nzPageSize]="10">
+    <thead>
+    <tr>
+      <th></th>
+      <th><span translate>dw-custom-table-display-客戶編號</span></th>
+      <th><span translate>dw-custom-table-display-客戶名稱</span></th>
+    </tr>
+    </thead>
+    <tbody dw-tbody>
+    <tr *ngFor="let data of dwTable.data" (click)="customerName = data.name">
+      <td dwCheckbox>
+        <label nz-radio [nzValue]="data.name"></label>
+      </td>
+      <td>{{data.id}}</td>
+      <td>{{data.name}}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-radio-group>
+<div class="customize-footer">
+  <button nz-button type="button" [nzType]="'primary'" (click)="emitDataOutside()" translate>dw-determine</button>
+  <button nz-button type="button" [nzType]="'default'" (click)="handleCancel('onCancel')" translate>dw-custom-table-display-返回</button>
+</div>

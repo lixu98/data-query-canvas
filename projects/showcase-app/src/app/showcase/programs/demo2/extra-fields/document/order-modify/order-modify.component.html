@@ -1,0 +1,222 @@
+<nz-content class="dw-f-content-edit">
+  <form nz-form *ngIf="master?.controls[0]" [formGroup]="master.controls[0]">
+    <!-- 單頭 -->
+    <div nz-row [nzJustify]="'start'">
+      <div nz-row [nzGutter]="10" class="dw-f-form-head">
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-input
+          name="orderId"
+          formControlName="orderid"
+          dwLabel="{{'dw-document-order-訂單編號' | translate}}"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="true">
+        </dw-form-input>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-select
+          [dwOptionList]="statusList"
+          formControlName="status"
+          name="status"
+          dwLabel="{{'dw-document-order-狀態碼' | translate}}"
+          dwPlaceHolder="{{'dw-document-order-請選擇' | translate}}"
+          dwNotFoundContent="{{'dw-document-order-無選項' | translate}}"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="true">
+        </dw-form-select>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-date-picker
+          dwLabel="{{'dw-document-order-訂單日期' | translate}}"
+          formControlName="orderdate"
+          [dwPlaceHolder]="dwDateFormat"
+          [dwFormat]="dwDateFormat"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="true">
+        </dw-form-date-picker>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <nz-form-item nz-row>
+          <nz-form-label [nzSpan]="8" class="dw-f-label-title" nzRequired>
+            <span translate>dw-document-order-客戶編號</span>
+          </nz-form-label>
+          <nz-form-control nzSpan="24" nz-col [nzSm]="18" [nzXs]="24">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixCustomerData">
+              <input type="text" nz-input formControlName="customerid" readonly>
+            </nz-input-group>
+            <ng-template #suffixCustomerData>
+              <button nz-button type="button" nzType="primary" nzSearch (click)="openCustomerDataWin($event)">
+                <i nz-icon nzType="search" nzTheme="outline"></i>
+              </button>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- <div nz-col [dwSpan]="12" [dwLg]="{span: 8}" [dwXXl]="{span: 6}">
+        <dw-form-input
+          formControlName="customerid"
+          dwLabel="{{'dw-document-order-客戶編號' | translate}}"
+          dwPlaceholder="'placeholder'"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="true">
+        </dw-form-input>
+      </div> -->
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <dw-form-input
+          formControlName="employeeid"
+          dwLabel="{{'dw-document-order-業務員員工編號' | translate}}"
+          dwPlaceholder="'placeholder'"
+          dwLabelSpan="7"
+          dwInputSpan="17"
+          [dwRequired]="false">
+        </dw-form-input>
+      </div>
+      <div nz-col [nzSpan]="12" [nzLg]="{span: 8}" [nzXXl]="{span: 6}">
+        <nz-form-item nz-row>
+          <nz-form-label [nzSpan]="8" class="dw-f-label-title">
+            <span translate>dw-document-order-訂單總額</span>
+          </nz-form-label>
+          <nz-form-control [nzSpan]="16" class="dw-f-control-data">
+            {{master.controls[0].get('totalcount').value | currency: 'TWD': '$': '1.0-0'}}
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="24">
+        <dw-form-input
+          formControlName="address"
+          dwLabel="{{'dw-document-order-送貨地址' | translate}}"
+          dwPlaceholder="'placeholder'"
+          dwLabelSpan="2"
+          dwInputSpan="22"
+          [dwRequired]="false">
+        </dw-form-input>
+      </div>
+
+      <nz-divider nzText="{{'dw-extra-fields' | translate }}" nzOrientation="left"></nz-divider>
+      <!-- CRUD 設定檔 -->
+      <div nz-col [nzSpan]="24">
+        <dw-extra-fields
+          cols="3"
+          labelSpan="8"
+          inputSpan="16"
+          [group]="master.controls[0]"
+          [dwDocument]="doc"
+          tableName="demo_order"
+        >
+        </dw-extra-fields>
+      </div>
+
+    </div>
+    </div>
+    <!-- 單身 -->
+    <div nz-row class="dw-f-btn-bar-action">
+      <div [nzSpan]="24" nz-col>
+        <button nz-button type="button" [nzType]="'primary'" (click)="detailAdd('demo_orderdetail')">
+          <i nz-icon nzType="plus" nzTheme="outline"></i>
+          <span translate>dw-document-order-新增</span>
+        </button>
+        <button nz-button type="button" [nzType]="'primary'"
+          nz-popconfirm
+          [nzPopconfirmTitle]="'dw-document-order-是否整批刪除' | translate"
+          (nzOnConfirm)="detailClear('demo_orderdetail')"
+          [nzOkText]="'dw-determine' | translate"
+          [nzCancelText]="'dw-cancel' | translate"
+          [nzPopconfirmPlacement]="'topRight'"
+          [disabled]="detail.demo_orderdetail.activeRows.length===0"
+          >
+          <i nz-icon nzType="delete" nzTheme="outline"></i>
+          <span translate>dw-document-order-整批刪除</span>
+        </button>
+      </div>
+    </div>
+    <div class="dw-f-table dw-f-row-bottom-margin">
+      <!--  使用 .activeRows 與 rows !== DELETE 的筆數是一樣的, 用來當筆數為 0 時, 可以顯示[dwNoResult 無數據時顯示內容] -->
+      <nz-table #dwTable [nzData]="detail.demo_orderdetail.activeRows" [nzShowPagination]="false" [nzFrontPagination]="false" nzShowSizeChanger [nzLoading]="searchLoading">
+        <thead>
+          <tr>
+            <th>
+              <span translate>dw-document-order-序列號</span>
+            </th>
+            <th>
+              <span translate>dw-document-order-配送狀態</span>
+            </th>
+            <th>
+              <span translate>dw-document-order-商品編號</span>
+            </th>
+            <th>
+              <span translate>dw-document-order-銷售單價</span>
+            </th>
+            <th>
+              <span translate>dw-document-order-數量</span>
+            </th>
+            <th>
+              <span translate>dw-document-order-小計</span>
+            </th>
+            <th>
+              <span translate>dw-document-order-操作</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody dw-tbody *ngIf="detail" >
+        <!--  使用 .rows, 才能確保 index 的順序是正確的 -->
+        <ng-container *ngFor="let data of dwTable.data; trackBy:trackByFn;" [formGroup]="data">
+          <tr >
+            <td>
+              {{data.controls['seq'].value}}
+            </td>
+            <td>
+              {{data.controls['deliverystatus'].value}}
+            </td>
+            <td>
+              <nz-form-item nz-row>
+                <nz-form-control nz-col [nzSpan]="24">
+                  <input nz-input formControlName="productid"
+                         [attr.disabled]="true">
+                </nz-form-control>
+              </nz-form-item>
+            </td>
+            <td class="number-align">
+              {{data.controls['price'].value}}
+            </td>
+            <td>
+              <nz-form-item nz-row>
+                <nz-form-control nz-col [nzSpan]="24">
+                  <nz-input-number formControlName="quantity"
+                                   [nzMin]="1"
+                                   >
+                  </nz-input-number>
+                </nz-form-control>
+              </nz-form-item>
+            </td>
+            <td class="number-align">
+              {{data.controls['price'].value * data.controls['quantity'].value}}
+            </td>
+            <td>
+              <span class="dw-link-txt">
+                <a (click)="detailModify('demo_orderdetail', data)" translate>dw-document-order-修改</a>
+                <span dw-table-divider></span>
+                <a nz-popconfirm [nzPopconfirmTitle]="'dw-document-order-是否刪除' | translate" (nzOnConfirm)="detailDelete('demo_orderdetail', data)"
+                  [nzOkText]="'dw-determine' | translate" [nzCancelText]="'dw-cancel' | translate"
+                  [nzPopconfirmPlacement]="'topRight'" translate>dw-document-order-刪除</a>
+              </span>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </nz-table>
+    </div>
+    <!-- 表單按鈕 -->
+    <nz-form-item nz-row class="dw-f-bottom-btn-bar">
+      <div nz-col [nzSpan]="24" class="dw-f-txt-center">
+        <button nz-button type="button" [nzType]="'primary'" type="button" [disabled]="!doc.valid" dwDocSave (dwDocOnSave)="docOnSave($event)">{{ 'dw-save' | translate }}</button>
+        <button nz-button type="button" (click)="cancel()">{{ 'dw-cancel' | translate }}</button>
+      </div>
+    </nz-form-item>
+  </form>
+</nz-content>
+<ng-template #modifyDetailTitle><span translate>dw-document-order-修改訂單明細</span></ng-template>
+<ng-template #addDetailTitle><span translate>dw-document-order-新增訂單明細</span></ng-template>

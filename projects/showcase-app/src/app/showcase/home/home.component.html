@@ -1,0 +1,30 @@
+<!-- 竹寫的 -->
+<div style="padding-right: 24px; padding-left: 24px;">
+  <div nz-row [nzGutter]="{ xs: 0, sm: 0, md: 0, lg: 8, xl: 16, xxl: 16 }">
+    <div nz-col class="gutter-row" nzXs="0" nzSm="0" nzMd="24" nzLg="24" nzXl="24">
+      <nz-card style="padding:0px ; border: 0px; background-color: unset;">
+        <img style="width: 100%; " src="./assets/img/showcase/testbg.svg" />
+      </nz-card>
+    </div>
+    <div nz-col class="gutter-row" nzXs="24" nzSm="24" nzMd="0" nzLg="0" nzXl="0">
+      <nz-card style="padding:0px ; border: 0px; background-color: unset;">
+        <img style="width: 100%; " src="./assets/img/showcase/dapbg.svg" />
+      </nz-card>
+    </div>
+  </div>
+
+  <div nz-row>
+    <ng-container *ngFor="let card of cardList">
+      <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6" style="padding: 8px; ">
+        <nz-card class="dw-cardList" [nzCover]="coverTemplate" [nzHoverable]="checkSiteUrl(card)" (click)="openSiteUrl(card)">
+          <nz-card-meta [nzTitle]="card.title | translate"></nz-card-meta>
+        </nz-card>
+        <ng-template #coverTemplate>
+          <img class="dw-card-coverTemplate" [alt]="card.title | translate" [src]="card.sampleImage" />
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+
+</div>
+<!-- 竹寫的 -->

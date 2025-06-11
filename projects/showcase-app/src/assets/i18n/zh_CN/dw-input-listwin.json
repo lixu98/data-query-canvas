@@ -1,0 +1,14 @@
+{
+  "dw-input-listwin-title-1": "后端分页(多选) - 固定条件(DwQueryCondition)",
+  "dw-input-listwin-title-2": "前端分页(单选)",
+  "dw-input-listwin-title-3": "前端分页(多选) - 枚举",
+  "dw-input-listwin-title-4": "后端分页(多选) - 设定回传栏位 - 自定义 Tag 格式(ng-template) - 固定条件(DwQueryConditionInfo)",
+  "dw-input-listwin-title-5": "前端分页(单选) - 设定回传栏位",
+  "dw-input-listwin-title-6": "后端分页(多选) - 设定回传栏位 - 自定义 Tag 格式(function) - 固定条件(DwQueryConditionInfo)",
+  "dw-input-listwin-title-7": "后端分页(多选) - 开窗的错误",
+  "dw-input-listwin-title-8": "前端分页(多选) - Table固定表头",
+  "dw-input-listwin-input": "输入栏位",
+  "dw-input-listwin-selected": "选取值",
+  "dw-input-listwin-errorCode": "错误代码",
+  "dw-input-listwin-errorMessage": "错误讯息"
+}

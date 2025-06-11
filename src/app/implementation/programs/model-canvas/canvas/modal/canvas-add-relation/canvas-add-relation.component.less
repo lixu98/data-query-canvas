@@ -1,0 +1,58 @@
+.ant-input-affix-wrapper-disabled {
+  cursor: pointer;
+  background-color: #fff;
+  .ant-input-disabled {
+    cursor: pointer;
+    color: #1D1C33;
+  }
+}
+
+.form-item {
+  padding-bottom: 16px;
+  margin-bottom: 14px;
+  border-bottom: 1px dashed #DFDFE5;
+}
+
+.config-table {
+  .table-thead, .table-tbody > div {
+    gap: 36px;
+    > div {
+      &:first-child {
+        flex: 0 0 70px;
+      }
+      &.operate {
+        flex: 0 0 28px;
+      }
+    }
+  }
+  .table-tbody > div {
+    i {
+      &.link {
+        margin-left: -25px;
+        margin-right: 11px;
+      }
+      &.change {
+        margin-left: 10px;
+      }
+    }
+    ::ng-deep.td-right {
+      .ant-select .ant-select-selector, .ant-input {
+        border-radius: 0 4px 4px 0 !important;
+      }
+      .ant-input-group-addon {
+        cursor: pointer;
+        background-color: #fff;
+        border-radius: 4px 0 0 4px;
+      }
+      .disabled .ant-input-group-addon {
+        color: rgba(0, 0, 0, 0.25);
+        background: #f5f5f5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      > div {
+        width: 100%;
+      }
+    }
+  }
+}

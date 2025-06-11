@@ -1,0 +1,49 @@
+<nz-modal nzClassName="select-object-modal" [(nzVisible)]="isVisible" nzTitle="选择目标领域对象" nzWidth="960px" (nzOnCancel)="close()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <div class="table-search">
+            <nz-input-group class="search-filter" [nzPrefix]="searchIcon">
+                <input nz-input placeholder="请输入名称/编号" [(ngModel)]="keyword" (ngModelChange)="onPaginationChange()" />
+            </nz-input-group>
+            <ng-template #searchIcon>
+                <svg width="16" height="16" viewBox="0 0 16 16"><g><g><path d="M11.019522833862304,11.726548092651367C10.065772833862304,12.521598092651367,8.838742833862305,12.999898092651367,7.499982833862305,12.999898092651367C4.462412833862304,12.999898092651367,1.9999828338623047,10.537498092651367,1.9999828338623047,7.499958092651367C1.9999828338623047,4.462408092651367,4.462412833862304,1.9999980926513672,7.499982833862305,1.9999980926513672C10.537552833862305,1.9999980926513672,12.999982833862305,4.462408092651367,12.999982833862305,7.499958092651367C12.999982833862305,8.838688092651367,12.521682833862304,10.065698092651367,11.726632833862304,11.019438092651367L11.853552833862304,11.146358092651367L13.853582833862305,13.146298092651367C13.947282833862305,13.240098092651367,13.999982833862305,13.367298092651367,13.999982833862305,13.499898092651367C13.999982833862305,13.775998092651367,13.776182833862304,13.999898092651367,13.499982833862305,13.999898092651367C13.367382833862305,13.999898092651367,13.240182833862304,13.947198092651368,13.146482833862304,13.853398092651368L11.146442833862304,11.853468092651367L11.019522833862304,11.726548092651367ZM11.999982833862305,7.499958092651367C11.999982833862305,5.014698092651367,9.985262833862304,2.999990092651367,7.499982833862305,2.999990092651367C5.014702833862305,2.999990092651367,2.9999828338623047,5.014698092651367,2.9999828338623047,7.499958092651367C2.9999828338623047,9.985218092651367,5.014702833862305,11.999918092651367,7.499982833862305,11.999918092651367C9.985262833862304,11.999918092651367,11.999982833862305,9.985218092651367,11.999982833862305,7.499958092651367Z" fill-rule="evenodd" fill="#A6A6B2" fill-opacity="1"/></g></g></svg>
+            </ng-template>
+        </div>
+        <nz-table
+            #fixedTable
+            nzSize="small"
+            nzBordered
+            [nzData]="listOfData"
+            [nzFrontPagination]="false"
+            [nzShowQuickJumper]="true"
+            [nzShowSizeChanger]="true"
+            [nzShowTotal]="totalTpl"
+            [nzTotal]="pagination.total"
+            [nzPageIndex]="pagination.page"
+            [nzPageSize]="pagination.limit"
+            (nzPageIndexChange)="onPaginationChange($event)"
+            (nzPageSizeChange)="onPaginationChange($event, 'limit')"
+        >
+            <thead>
+            <tr>
+                <th nzWidth="40px"></th>
+                <th>领域对象名称</th>
+                <th>领域对象编号</th>
+                <th>业务模型名称</th>
+                <th>业务模型编号</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of fixedTable.data" (click)="onTargetObjectChange(row)">
+                    <td class="td-radio">
+                        <input type="radio" name="rowSelection" [checked]="targetObject?.domainObjectCode === row.domainObjectCode">
+                    </td>
+                    <td>{{ row.domainObjectName }}</td>
+                    <td>{{ row.domainObjectCode }}</td>
+                    <td>{{ row.businessModelName }}</td>
+                    <td>{{ row.businessModelCode }}</td>
+                </tr>
+            </tbody>
+            <ng-template #totalTpl let-total> 共 <span>{{ total }}</span> 条 </ng-template>
+        </nz-table>
+    </ng-container>
+</nz-modal>

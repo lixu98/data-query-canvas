@@ -1,0 +1,41 @@
+.config-message {
+  margin: -24px -24px 20px -24px;
+  background-color: #FFF7E5;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    i {
+      color: #FF7F00;
+      margin-right: 8px;
+      font-size: 16px;
+    }
+  }
+  > i {
+    cursor: pointer;
+  }
+}
+
+.config-table {
+  .table-tbody {
+    overflow-y: auto;
+    max-height: 328px;
+  }
+  .table-thead, .table-tbody > div {
+    > div {
+      &:nth-child(4) {
+        flex: 0 0 56px;
+      }
+      &:last-child {
+        flex: 0 0 52px;
+      }
+    }
+    .ant-form-item {
+      width: 100%;
+    }
+  }
+}
